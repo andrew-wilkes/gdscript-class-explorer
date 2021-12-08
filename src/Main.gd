@@ -1,8 +1,11 @@
 extends Control
 
-enum { ABOUT, DOCS, QA, LICENCES }
+enum { ABOUT, DOCS, QA, LICENCES, GODOT }
 
 const ICONS_PATH = "res://assets/icons/"
+
+export(Color) var class_text_highlight_color = Color.green
+export(Color) var class_text_normal_color = Color.white
 
 var list: VBoxContainer
 var list_button = preload("res://ListButton.tscn")
@@ -19,6 +22,7 @@ func _ready():
 	var hm = $VBox/Menu/Help.get_popup()
 	hm.add_icon_item(link_icon, "Online Documentation", DOCS)
 	hm.add_icon_item(link_icon, "Questions & Answers", QA)
+	hm.add_icon_item(link_icon, "Godot Engine", GODOT)
 	hm.add_separator()
 	hm.add_item("About", ABOUT, KEY_MASK_CTRL | KEY_A)
 	hm.add_item("Licences", LICENCES)
@@ -121,7 +125,7 @@ func update_labels():
 				var button: Button = grid.get_child(i)
 				button.text = item.keyword
 				button.hint_tooltip = get_brief_description(item.keyword)
-				button.modulate = button_color.lightened(0.2)
+				button.set("custom_colors/font_color", class_text_highlight_color)
 				button.icon = icons.get(item.keyword)
 				item.weight = 0 # Skip this item for this weight from now on
 				break
@@ -130,7 +134,7 @@ func update_labels():
 		var button: Button = grid.get_child(i)
 		button.text = item.keyword
 		button.hint_tooltip = get_brief_description(item.keyword)
-		button.modulate = button_color
+		button.set("custom_colors/font_color", class_text_normal_color)
 		button.icon = icons.get(item.keyword)
 		i += 1
 	for item in grid.get_children():
@@ -172,6 +176,8 @@ func _on_HelpMenu_id_pressed(id):
 			var _e = OS.shell_open("https://docs.godotengine.org/en/stable/")
 		QA:
 			var _e = OS.shell_open("https://godotengine.org/qa/")
+		GODOT:
+			var _e = OS.shell_open("https://godotengine.org/")
 
 
 func _on_ok_pressed():
