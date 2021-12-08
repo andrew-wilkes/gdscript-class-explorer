@@ -1,0 +1,175 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Main.gd" type="Script" id=1]
+
+[node name="Main" type="MarginContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 9
+custom_constants/margin_top = 9
+custom_constants/margin_left = 9
+custom_constants/margin_bottom = 9
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBox" type="VBoxContainer" parent="."]
+margin_left = 9.0
+margin_top = 9.0
+margin_right = 1015.0
+margin_bottom = 591.0
+
+[node name="Menu" type="HBoxContainer" parent="VBox"]
+margin_right = 1006.0
+margin_bottom = 20.0
+
+[node name="sp" type="Control" parent="VBox/Menu"]
+margin_right = 960.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="Help" type="MenuButton" parent="VBox/Menu"]
+margin_left = 964.0
+margin_right = 1006.0
+margin_bottom = 20.0
+text = "Help"
+
+[node name="SS" type="LineEdit" parent="VBox"]
+margin_top = 24.0
+margin_right = 1006.0
+margin_bottom = 48.0
+
+[node name="BC" type="ScrollContainer" parent="VBox"]
+margin_top = 52.0
+margin_right = 1006.0
+margin_bottom = 582.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+scroll_horizontal_enabled = false
+
+[node name="Grid" type="GridContainer" parent="VBox/BC"]
+custom_constants/vseparation = 10
+custom_constants/hseparation = 10
+
+[node name="c" type="CanvasLayer" parent="."]
+
+[node name="About" type="AcceptDialog" parent="c"]
+margin_right = 83.0
+margin_bottom = 58.0
+window_title = "About"
+dialog_text = "Created by Andrew Wilkes 2021
+
+Supported Godot Engine version: 3.4"
+
+[node name="Licences" type="PopupDialog" parent="c"]
+margin_right = 600.0
+margin_bottom = 369.0
+rect_min_size = Vector2( 600, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="M" type="MarginContainer" parent="c/Licences"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 9
+custom_constants/margin_top = 9
+custom_constants/margin_left = 9
+custom_constants/margin_bottom = 9
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBox" type="VBoxContainer" parent="c/Licences/M"]
+margin_left = 9.0
+margin_top = 9.0
+margin_right = 591.0
+margin_bottom = 360.0
+custom_constants/separation = 10
+
+[node name="ScrollContainer" type="ScrollContainer" parent="c/Licences/M/VBox"]
+margin_right = 582.0
+margin_bottom = 321.0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="c/Licences/M/VBox/ScrollContainer"]
+margin_right = 582.0
+margin_bottom = 1187.0
+size_flags_horizontal = 3
+text = "Licence Information
+
+This game uses Godot Engine, available under the following license:
+
+Copyright (c) 2007-2021 Juan Linietsky, Ariel Manzur. Copyright (c) 2014-2021 Godot Engine contributors.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \\\"Software\\\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED \\\"AS IS\\\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+--------
+FreeType
+
+Portions of this software are copyright © 2021 The FreeType Project (www.freetype.org). All rights reserved.
+
+--------
+ENet
+Godot includes the ENet library to handle high-level multiplayer.
+
+Copyright (c) 2002-2020 Lee Salzman
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \\\"Software\\\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED \\\"AS IS\\\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+---------
+MBedTLS
+
+For using SSL (usually through HTTP requests), the MBedTLS Apache license:
+
+Copyright The Mbed TLS Contributors
+
+Licensed under the Apache License, Version 2.0 (the \\\"License\\\"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \\\"AS IS\\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+"
+autowrap = true
+
+[node name="HBox" type="HBoxContainer" parent="c/Licences/M/VBox"]
+margin_top = 331.0
+margin_right = 582.0
+margin_bottom = 351.0
+
+[node name="sp" type="Control" parent="c/Licences/M/VBox/HBox"]
+margin_right = 271.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="ok" type="Button" parent="c/Licences/M/VBox/HBox"]
+margin_left = 275.0
+margin_right = 306.0
+margin_bottom = 20.0
+text = "OK"
+
+[node name="sp2" type="Control" parent="c/Licences/M/VBox/HBox"]
+margin_left = 310.0
+margin_right = 582.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="resized" from="." to="." method="_on_Main_resized"]
+[connection signal="text_changed" from="VBox/SS" to="." method="_on_SS_text_changed"]
+[connection signal="pressed" from="c/Licences/M/VBox/HBox/ok" to="." method="_on_ok_pressed"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

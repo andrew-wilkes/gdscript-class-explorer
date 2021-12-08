@@ -1,0 +1,323 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://ClassDetails.gd" type="Script" id=1]
+[ext_resource path="res://assets/fonts/boldheader.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/fonts/OpenSans-Bold.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://ContentRichTextLabel.tscn" type="PackedScene" id=5]
+
+[sub_resource type="DynamicFont" id=1]
+size = 18
+font_data = ExtResource( 3 )
+
+[node name="ClassDetails" type="MarginContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+custom_constants/margin_right = 9
+custom_constants/margin_top = 9
+custom_constants/margin_left = 9
+custom_constants/margin_bottom = 9
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SC" type="ScrollContainer" parent="."]
+margin_left = 9.0
+margin_top = 9.0
+margin_right = 1015.0
+margin_bottom = 591.0
+
+[node name="H" type="HBoxContainer" parent="SC"]
+margin_right = 994.0
+margin_bottom = 630.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 10
+
+[node name="VBox" type="VBoxContainer" parent="SC/H"]
+margin_right = 974.0
+margin_bottom = 630.0
+rect_min_size = Vector2( 720, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBox" type="HBoxContainer" parent="SC/H/VBox"]
+margin_right = 974.0
+margin_bottom = 38.0
+custom_constants/separation = 10
+
+[node name="Heading" type="Label" parent="SC/H/VBox/HBox"]
+modulate = Color( 0.0941176, 0.717647, 0.733333, 1 )
+margin_top = 2.0
+margin_right = 68.0
+margin_bottom = 36.0
+custom_fonts/font = ExtResource( 2 )
+text = "Class:"
+
+[node name="ClassName" type="Label" parent="SC/H/VBox/HBox"]
+margin_left = 78.0
+margin_top = 2.0
+margin_right = 161.0
+margin_bottom = 36.0
+custom_fonts/font = ExtResource( 2 )
+text = "Button"
+
+[node name="Sp1" type="Control" parent="SC/H/VBox/HBox"]
+margin_left = 171.0
+margin_right = 603.0
+margin_bottom = 38.0
+size_flags_horizontal = 3
+
+[node name="VBox" type="VBoxContainer" parent="SC/H/VBox/HBox"]
+margin_left = 613.0
+margin_right = 913.0
+margin_bottom = 38.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="SC/H/VBox/HBox/VBox"]
+margin_right = 300.0
+margin_bottom = 14.0
+custom_colors/font_color = Color( 0.564706, 0.564706, 0.564706, 1 )
+text = "Interest level"
+
+[node name="HSlider" type="HSlider" parent="SC/H/VBox/HBox/VBox"]
+margin_top = 18.0
+margin_right = 300.0
+margin_bottom = 34.0
+rect_min_size = Vector2( 300, 0 )
+
+[node name="Sp" type="Control" parent="SC/H/VBox/HBox/VBox"]
+margin_top = 38.0
+margin_right = 300.0
+margin_bottom = 38.0
+size_flags_vertical = 3
+
+[node name="Classes" type="Button" parent="SC/H/VBox/HBox"]
+margin_left = 923.0
+margin_right = 974.0
+margin_bottom = 38.0
+text = "Home"
+
+[node name="Sp1" type="Control" parent="SC/H/VBox"]
+margin_top = 42.0
+margin_right = 974.0
+margin_bottom = 52.0
+rect_min_size = Vector2( 0, 10 )
+
+[node name="Ih" type="HBoxContainer" parent="SC/H/VBox"]
+margin_top = 56.0
+margin_right = 974.0
+margin_bottom = 84.0
+custom_constants/separation = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="SC/H/VBox/Ih"]
+margin_top = 7.0
+margin_right = 54.0
+margin_bottom = 21.0
+text = "Inherits:"
+
+[node name="Inherits" parent="SC/H/VBox/Ih" instance=ExtResource( 5 )]
+margin_left = 64.0
+margin_top = 0.0
+margin_right = 499.0
+margin_bottom = 28.0
+
+[node name="Sp" type="Control" parent="SC/H/VBox/Ih"]
+margin_left = 509.0
+margin_right = 944.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+
+[node name="BackButton" type="Button" parent="SC/H/VBox/Ih"]
+margin_left = 954.0
+margin_right = 974.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 0, 28 )
+hint_tooltip = "Go to previous class"
+text = "<"
+
+[node name="Ihby" type="HBoxContainer" parent="SC/H/VBox"]
+margin_top = 88.0
+margin_right = 974.0
+margin_bottom = 116.0
+custom_constants/separation = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="SC/H/VBox/Ihby"]
+margin_top = 7.0
+margin_right = 82.0
+margin_bottom = 21.0
+text = "Inherited by:"
+
+[node name="Inherited" parent="SC/H/VBox/Ihby" instance=ExtResource( 5 )]
+margin_left = 92.0
+margin_top = 0.0
+margin_right = 974.0
+margin_bottom = 28.0
+
+[node name="Sp4" type="Control" parent="SC/H/VBox"]
+margin_top = 120.0
+margin_right = 974.0
+margin_bottom = 130.0
+rect_min_size = Vector2( 0, 10 )
+
+[node name="BDescBox" type="HBoxContainer" parent="SC/H/VBox"]
+margin_top = 134.0
+margin_right = 974.0
+margin_bottom = 162.0
+custom_constants/separation = 8
+
+[node name="DescButton" type="Button" parent="SC/H/VBox/BDescBox"]
+margin_right = 20.0
+margin_bottom = 28.0
+hint_tooltip = "Detailed description"
+text = "+"
+
+[node name="BDesc" parent="SC/H/VBox/BDescBox" instance=ExtResource( 5 )]
+margin_left = 28.0
+margin_top = 0.0
+margin_right = 956.0
+margin_bottom = 28.0
+
+[node name="Sp" type="Control" parent="SC/H/VBox/BDescBox"]
+margin_left = 964.0
+margin_right = 974.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 10, 0 )
+
+[node name="Sp2" type="Control" parent="SC/H/VBox"]
+margin_top = 166.0
+margin_right = 974.0
+margin_bottom = 176.0
+rect_min_size = Vector2( 0, 10 )
+
+[node name="DescBox" type="VBoxContainer" parent="SC/H/VBox"]
+margin_top = 180.0
+margin_right = 974.0
+margin_bottom = 222.0
+size_flags_horizontal = 3
+
+[node name="HBox" type="HBoxContainer" parent="SC/H/VBox/DescBox"]
+margin_right = 974.0
+margin_bottom = 28.0
+
+[node name="Desc" parent="SC/H/VBox/DescBox/HBox" instance=ExtResource( 5 )]
+margin_top = 0.0
+margin_right = 950.0
+margin_bottom = 28.0
+
+[node name="Sp" type="Control" parent="SC/H/VBox/DescBox/HBox"]
+margin_left = 954.0
+margin_right = 974.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 20, 0 )
+
+[node name="Sp2" type="Control" parent="SC/H/VBox/DescBox"]
+margin_top = 32.0
+margin_right = 974.0
+margin_bottom = 42.0
+rect_min_size = Vector2( 0, 10 )
+
+[node name="HBox2" type="HBoxContainer" parent="SC/H/VBox"]
+margin_top = 226.0
+margin_right = 974.0
+margin_bottom = 246.0
+custom_constants/separation = 8
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NotesButton" type="Button" parent="SC/H/VBox/HBox2"]
+margin_right = 20.0
+margin_bottom = 20.0
+text = "+"
+
+[node name="Label" type="Label" parent="SC/H/VBox/HBox2"]
+margin_left = 28.0
+margin_top = 3.0
+margin_right = 66.0
+margin_bottom = 17.0
+custom_colors/font_color = Color( 0.564706, 0.564706, 0.564706, 1 )
+text = "Notes"
+
+[node name="Sp" type="Control" parent="SC/H/VBox/HBox2"]
+margin_left = 74.0
+margin_right = 974.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="Sp3" type="Control" parent="SC/H/VBox"]
+margin_top = 250.0
+margin_right = 974.0
+margin_bottom = 260.0
+rect_min_size = Vector2( 0, 10 )
+
+[node name="NotesBox" type="VBoxContainer" parent="SC/H/VBox"]
+margin_top = 264.0
+margin_right = 974.0
+margin_bottom = 378.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Notes" type="TextEdit" parent="SC/H/VBox/NotesBox"]
+margin_right = 974.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 0, 100 )
+size_flags_horizontal = 3
+text = "My notes
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sp4" type="Control" parent="SC/H/VBox/NotesBox"]
+margin_top = 104.0
+margin_right = 974.0
+margin_bottom = 114.0
+rect_min_size = Vector2( 0, 10 )
+
+[node name="TabContainer" type="TabContainer" parent="SC/H/VBox"]
+margin_top = 382.0
+margin_right = 974.0
+margin_bottom = 630.0
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 1 )
+tab_align = 0
+
+[node name="Methods" parent="SC/H/VBox/TabContainer" instance=ExtResource( 5 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 44.0
+margin_right = -4.0
+margin_bottom = -4.0
+rect_min_size = Vector2( 0, 200 )
+size_flags_vertical = 3
+fit_content_height = false
+
+[node name="Control" type="Control" parent="SC/H"]
+margin_left = 984.0
+margin_right = 994.0
+margin_bottom = 630.0
+rect_min_size = Vector2( 10, 0 )
+
+[connection signal="value_changed" from="SC/H/VBox/HBox/VBox/HSlider" to="." method="_on_HSlider_value_changed"]
+[connection signal="pressed" from="SC/H/VBox/HBox/Classes" to="." method="_on_Classes_pressed"]
+[connection signal="meta_clicked" from="SC/H/VBox/Ih/Inherits" to="." method="_on_meta_clicked"]
+[connection signal="pressed" from="SC/H/VBox/Ih/BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="meta_clicked" from="SC/H/VBox/Ihby/Inherited" to="." method="_on_meta_clicked"]
+[connection signal="pressed" from="SC/H/VBox/BDescBox/DescButton" to="." method="_on_Description_pressed"]
+[connection signal="meta_clicked" from="SC/H/VBox/BDescBox/BDesc" to="." method="_on_meta_clicked"]
+[connection signal="meta_clicked" from="SC/H/VBox/DescBox/HBox/Desc" to="." method="_on_meta_clicked"]
+[connection signal="pressed" from="SC/H/VBox/HBox2/NotesButton" to="." method="_on_NotesButton_pressed"]
+[connection signal="text_changed" from="SC/H/VBox/NotesBox/Notes" to="." method="_on_Notes_text_changed"]
+[connection signal="meta_clicked" from="SC/H/VBox/TabContainer/Methods" to="." method="_on_meta_clicked"]
