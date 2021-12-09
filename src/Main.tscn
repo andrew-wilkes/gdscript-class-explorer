@@ -42,7 +42,7 @@ margin_bottom = 24.0
 hint_tooltip = "Group"
 icon = ExtResource( 2 )
 
-[node name="Tree" type="ToolButton" parent="VBox/Menu"]
+[node name="TreeButton" type="ToolButton" parent="VBox/Menu"]
 margin_left = 64.0
 margin_right = 92.0
 margin_bottom = 24.0
@@ -96,8 +96,8 @@ custom_constants/hseparation = 10
 margin_top = 321.0
 margin_right = 1006.0
 margin_bottom = 582.0
-size_flags_horizontal = 3
 size_flags_vertical = 3
+columns = 2
 hide_root = true
 
 [node name="c" type="CanvasLayer" parent="."]
@@ -220,7 +220,7 @@ one_shot = true
 [connection signal="resized" from="." to="." method="_on_Main_resized"]
 [connection signal="pressed" from="VBox/Menu/Items" to="." method="_on_Items_pressed"]
 [connection signal="pressed" from="VBox/Menu/Groups" to="." method="_on_Groups_pressed"]
-[connection signal="pressed" from="VBox/Menu/Tree" to="." method="_on_Tree_pressed"]
+[connection signal="pressed" from="VBox/Menu/TreeButton" to="." method="_on_Tree_pressed"]
 [connection signal="pressed" from="VBox/Menu/Random" to="." method="_on_Random_pressed"]
 [connection signal="pressed" from="VBox/Menu/Reset" to="." method="_on_Reset_pressed"]
 [connection signal="text_changed" from="VBox/SS" to="." method="_on_SS_text_changed"]

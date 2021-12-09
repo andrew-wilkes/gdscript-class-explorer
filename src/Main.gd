@@ -37,12 +37,6 @@ func _ready():
 	h.scancode = KEY_H
 	$VBox/Menu/Help.shortcut = h
 	grid = $VBox/BC/Grid
-	the_tree = $VBox/Tree
-	var root = the_tree.create_item()
-	build_tree(the_tree, root, "Object")
-	for key in Data.class_tree.keys():
-		if Data.class_tree[key].size() == 1 and Data.class_tree[key][0].length() == 0:
-			build_tree(the_tree, root, key)
 	b_container = $VBox/BC
 	# Add buttons and build icon list
 	for cname in Data.classes.keys():
@@ -53,30 +47,37 @@ func _ready():
 	get_icon_files()
 	map_icons("Object")
 	map_other_icons()
+	
+	the_tree = find_node("Tree")
+	var root = the_tree.create_item()
+	build_tree(the_tree, root, "Object")
+	for key in Data.class_tree.keys():
+		if Data.class_tree[key].size() == 1 and Data.class_tree[key][0].length() == 0:
+			build_tree(the_tree, root, key)
+	
 	button_color = grid.get_child(0).modulate
 	update_weighted_labels()
 	match Data.settings.list_mode:
 		LIST_MODE.ALPHA:
-			set_tree_visibility(false)
+			set_visibility(false, false, false)
 		LIST_MODE.GROUP:
 			update_labels_by_group()
-			set_tree_visibility(false)
+			set_visibility(false, true, false)
 		LIST_MODE.RAND:
 			randomize_buttons()
-			set_tree_visibility(false)
+			set_visibility(false, true, false)
 		LIST_MODE.TREE:
-			set_tree_visibility(true)
+			set_visibility(true, true, true)
 	clear_search_box()
 	grid.columns = 1
 	call_deferred("arrange_controls")
 
-func set_tree_visibility(show):
-	if show:
-		$VBox/Tree.show()
-		$VBox/BC.hide()
-	else:
-		$VBox/Tree.hide()
-		$VBox/BC.show()
+
+func set_visibility(show_tree, rand_disabled, reset_disabled):
+	$VBox/Tree.visible = show_tree
+	$VBox/BC.visible = not show_tree
+	$VBox/Menu/Random.disabled = rand_disabled
+	$VBox/Menu/Reset.disabled = reset_disabled
 
 
 func get_icon_files():
@@ -104,7 +105,7 @@ func map_icons(cname):
 func map_other_icons():
 	for cname in Data.classes.keys():
 		if cname.begins_with("@"):
-			icons.erase(cname)
+			icons[cname] = icon_files["arrowright"]
 		elif Data.class_tree[cname][0].length() == 0:
 			map_icons(cname)
 
@@ -186,7 +187,10 @@ func randomize_buttons():
 
 func build_tree(tree: Tree, tree_item: TreeItem, cname):
 	var item = tree.create_item(tree_item)
+	#item.add_button(0, icons[cname], Data.class_list_key_map[cname], false, get_brief_description(cname))
 	item.set_text(0, cname)
+	item.set_icon(0, icons[cname])
+	item.set_text(1, get_brief_description(cname))
 	var idx = 0
 	for child in Data.class_tree[cname]:
 		if idx > 0:
@@ -272,9 +276,7 @@ func _on_Items_pressed():
 	if Data.settings.list_mode != LIST_MODE.ALPHA:
 		Data.settings.list_mode = LIST_MODE.ALPHA
 		Data.settings_changed = true
-		set_tree_visibility(false)
-		$VBox/Menu/Random.disabled = false
-		$VBox/Menu/Reset.disabled = false
+		set_visibility(false, false, false)
 		update_weighted_labels()
 
 
@@ -283,9 +285,7 @@ func _on_Groups_pressed():
 		Data.settings.group_mode = posmod(Data.settings.group_mode + 1, node_groups.size())
 	else:
 		Data.settings.list_mode = LIST_MODE.GROUP
-		set_tree_visibility(false)
-		$VBox/Menu/Random.disabled = false
-		$VBox/Menu/Reset.disabled = true
+		set_visibility(false, false, true)
 	Data.settings_changed = true
 	update_labels_by_group()
 
@@ -294,9 +294,7 @@ func _on_Tree_pressed():
 	if Data.settings.list_mode != LIST_MODE.TREE:
 		Data.settings.list_mode = LIST_MODE.TREE
 		Data.settings_changed = true
-		set_tree_visibility(true)
-		$VBox/Menu/Random.disabled = true
-		$VBox/Menu/Reset.disabled = true
+		set_visibility(true, true, true)
 
 
 func _on_Random_pressed():
