@@ -27,7 +27,7 @@ margin_bottom = 591.0
 
 [node name="Menu" type="HBoxContainer" parent="VBox"]
 margin_right = 1006.0
-margin_bottom = 20.0
+margin_bottom = 24.0
 
 [node name="Items" type="ToolButton" parent="VBox/Menu"]
 margin_right = 28.0
@@ -66,24 +66,24 @@ icon = ExtResource( 6 )
 [node name="sp" type="Control" parent="VBox/Menu"]
 margin_left = 160.0
 margin_right = 960.0
-margin_bottom = 20.0
+margin_bottom = 24.0
 size_flags_horizontal = 3
 
 [node name="Help" type="MenuButton" parent="VBox/Menu"]
 margin_left = 964.0
 margin_right = 1006.0
-margin_bottom = 20.0
+margin_bottom = 24.0
 text = "Help"
 
 [node name="SS" type="LineEdit" parent="VBox"]
-margin_top = 24.0
+margin_top = 28.0
 margin_right = 1006.0
-margin_bottom = 48.0
+margin_bottom = 52.0
 
 [node name="BC" type="ScrollContainer" parent="VBox"]
-margin_top = 52.0
+margin_top = 56.0
 margin_right = 1006.0
-margin_bottom = 582.0
+margin_bottom = 317.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
@@ -91,6 +91,14 @@ scroll_horizontal_enabled = false
 [node name="Grid" type="GridContainer" parent="VBox/BC"]
 custom_constants/vseparation = 10
 custom_constants/hseparation = 10
+
+[node name="Tree" type="Tree" parent="VBox"]
+margin_top = 321.0
+margin_right = 1006.0
+margin_bottom = 582.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+hide_root = true
 
 [node name="c" type="CanvasLayer" parent="."]
 

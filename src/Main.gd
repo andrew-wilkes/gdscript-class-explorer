@@ -17,6 +17,7 @@ var button_color: Color
 var item_desc = {}
 var class_details_scene = preload("res://ClassDetails.tscn")
 var grid
+var the_tree
 var b_container
 var link_icon = preload("res://assets/icons/icon_instance.svg")
 var icons = {}
@@ -36,6 +37,12 @@ func _ready():
 	h.scancode = KEY_H
 	$VBox/Menu/Help.shortcut = h
 	grid = $VBox/BC/Grid
+	the_tree = $VBox/Tree
+	var root = the_tree.create_item()
+	build_tree(the_tree, root, "Object")
+	for key in Data.class_tree.keys():
+		if Data.class_tree[key].size() == 1 and Data.class_tree[key][0].length() == 0:
+			build_tree(the_tree, root, key)
 	b_container = $VBox/BC
 	# Add buttons and build icon list
 	for cname in Data.classes.keys():
@@ -47,16 +54,29 @@ func _ready():
 	map_icons("Object")
 	map_other_icons()
 	button_color = grid.get_child(0).modulate
+	update_weighted_labels()
 	match Data.settings.list_mode:
 		LIST_MODE.ALPHA:
-			update_weighted_labels()
+			set_tree_visibility(false)
 		LIST_MODE.GROUP:
 			update_labels_by_group()
+			set_tree_visibility(false)
 		LIST_MODE.RAND:
 			randomize_buttons()
+			set_tree_visibility(false)
+		LIST_MODE.TREE:
+			set_tree_visibility(true)
 	clear_search_box()
 	grid.columns = 1
 	call_deferred("arrange_controls")
+
+func set_tree_visibility(show):
+	if show:
+		$VBox/Tree.show()
+		$VBox/BC.hide()
+	else:
+		$VBox/Tree.hide()
+		$VBox/BC.show()
 
 
 func get_icon_files():
@@ -128,17 +148,17 @@ func update_weighted_labels():
 			unweighted_items.append(class_item)
 	weights.sort()
 	weights.invert()
-	var i = 0
+	var idx = 0
 	for weight in weights:
 		for item in weighted_items: # Find first item with this weight
 			if item.weight == weight:
-				configure_button(item, i, class_text_highlight_color)
+				configure_button(grid.get_child(idx), item, class_text_highlight_color)
 				item.weight = 0 # Skip this item for this weight from now on
 				break
-		i += 1
+		idx += 1
 	for item in unweighted_items:
-		configure_button(item, i)
-		i += 1
+		configure_button(grid.get_child(idx), item)
+		idx += 1
 
 
 func update_labels_by_group():
@@ -160,7 +180,17 @@ func randomize_buttons():
 	items.shuffle()
 	var idx = 0
 	for item in items:
-		configure_button(item, idx)
+		configure_button(grid.get_child(idx), item)
+		idx += 1
+
+
+func build_tree(tree: Tree, tree_item: TreeItem, cname):
+	var item = tree.create_item(tree_item)
+	item.set_text(0, cname)
+	var idx = 0
+	for child in Data.class_tree[cname]:
+		if idx > 0:
+			build_tree(tree, item, child)
 		idx += 1
 
 
@@ -168,7 +198,7 @@ func configure_button_tree(cname: String, idx: int, others: bool):
 	# Skip child nodes of Node if already processed
 	if others and cname in node_groups:
 		return idx
-	configure_button(Data.get_user_class(cname), idx)
+	configure_button(grid.get_child(idx), Data.get_user_class(cname))
 	idx += 1
 	for i in range(1, Data.class_tree[cname].size()):
 		var child = Data.class_tree[cname][i]
@@ -176,8 +206,7 @@ func configure_button_tree(cname: String, idx: int, others: bool):
 	return idx
 
 
-func configure_button(item: ClassItem, idx: int, text_color: Color = class_text_normal_color):
-	var button: Button = grid.get_child(idx)
+func configure_button(button: Button, item: ClassItem, text_color: Color = class_text_normal_color):
 	button.text = item.keyword
 	button.hint_tooltip = get_brief_description(item.keyword)
 	button.set("custom_colors/font_color", text_color)
@@ -243,6 +272,7 @@ func _on_Items_pressed():
 	if Data.settings.list_mode != LIST_MODE.ALPHA:
 		Data.settings.list_mode = LIST_MODE.ALPHA
 		Data.settings_changed = true
+		set_tree_visibility(false)
 		update_weighted_labels()
 
 
@@ -251,6 +281,7 @@ func _on_Groups_pressed():
 		Data.settings.group_mode = posmod(Data.settings.group_mode + 1, node_groups.size())
 	else:
 		Data.settings.list_mode = LIST_MODE.GROUP
+		set_tree_visibility(false)
 	Data.settings_changed = true
 	update_labels_by_group()
 
@@ -259,6 +290,7 @@ func _on_Tree_pressed():
 	if Data.settings.list_mode != LIST_MODE.TREE:
 		Data.settings.list_mode = LIST_MODE.TREE
 		Data.settings_changed = true
+		set_tree_visibility(true)
 
 
 func _on_Random_pressed():
@@ -266,7 +298,6 @@ func _on_Random_pressed():
 	var _arr = rand_seed(Data.settings.rseed)
 	Data.settings_changed = true
 	randomize_buttons()
-	
 
 
 func _on_Reset_pressed():
