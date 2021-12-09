@@ -2,6 +2,10 @@ extends Control
 
 enum { ABOUT, DOCS, QA, LICENCES, GODOT }
 
+enum LIST_MODE { ALPHA, TREE, GROUP, RAND }
+enum SORT_ORDER { AZ, ZA }
+enum GROUP_MODE { ANY, CONTROL, D2, D3, TYPE }
+
 const ICONS_PATH = "res://assets/icons/"
 
 export(Color) var class_text_highlight_color = Color.green
@@ -193,3 +197,43 @@ func _on_Main_resized():
 		grid.columns = 1
 		if $Timer.is_stopped():
 			$Timer.start(0.5)
+
+
+func _on_Items_pressed():
+	if Data.settings.list_mode == LIST_MODE.ALPHA:
+		pass
+	else:
+		Settings.list_mode = LIST_MODE.ALPHA
+
+
+func _on_Groups_pressed():
+	if Data.settings.list_mode == LIST_MODE.GROUP:
+		Data.settings.group_mode = wrapi(Data.settings.group_mode + 1, 0, GROUP_MODE.size())
+	else:
+		Data.settings.list_mode = LIST_MODE.GROUP
+	print(Data.settings.group_mode)
+
+
+func _on_Tree_pressed():
+	if Data.settings.list_mode == LIST_MODE.TREE:
+		pass
+	else:
+		Data.settings.list_mode = LIST_MODE.TREE
+
+
+func _on_Random_pressed():
+	if Data.settings.list_mode == LIST_MODE.RAND:
+		pass
+	else:
+		Data.settings.list_mode = LIST_MODE.RAND
+	var arr = rand_seed(Data.settings.rseed)
+
+
+func _on_Reset_pressed():
+	var changed = false
+	for class_item in Data.settings.class_list:
+		if class_item.weight > 0:
+			changed = true
+			class_item.weight = 0
+	if changed:
+		update_labels()

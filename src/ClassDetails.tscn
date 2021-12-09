@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://ClassDetails.gd" type="Script" id=1]
 [ext_resource path="res://assets/fonts/boldheader.tres" type="DynamicFont" id=2]
 [ext_resource path="res://assets/fonts/OpenSans-Bold.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://assets/icons/icon_edit.svg" type="Texture" id=4]
 [ext_resource path="res://ContentRichTextLabel.tscn" type="PackedScene" id=5]
 
 [sub_resource type="DynamicFont" id=1]
@@ -240,16 +241,22 @@ margin_right = 20.0
 margin_bottom = 20.0
 text = "+"
 
-[node name="Label" type="Label" parent="SC/H/VBox/HBox2"]
+[node name="Edit" type="TextureRect" parent="SC/H/VBox/HBox2"]
 margin_left = 28.0
+margin_right = 44.0
+margin_bottom = 20.0
+texture = ExtResource( 4 )
+
+[node name="Label" type="Label" parent="SC/H/VBox/HBox2"]
+margin_left = 52.0
 margin_top = 3.0
-margin_right = 66.0
+margin_right = 90.0
 margin_bottom = 17.0
 custom_colors/font_color = Color( 0.564706, 0.564706, 0.564706, 1 )
 text = "Notes"
 
 [node name="Sp" type="Control" parent="SC/H/VBox/HBox2"]
-margin_left = 74.0
+margin_left = 98.0
 margin_right = 974.0
 margin_bottom = 20.0
 size_flags_horizontal = 3

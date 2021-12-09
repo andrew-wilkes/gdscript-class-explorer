@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
+[ext_resource path="res://assets/icons/icon_panels_4.svg" type="Texture" id=2]
+[ext_resource path="res://assets/icons/icon_tree.svg" type="Texture" id=3]
+[ext_resource path="res://assets/icons/icon_tile_map.svg" type="Texture" id=4]
+[ext_resource path="res://assets/icons/icon_loop.svg" type="Texture" id=5]
+[ext_resource path="res://assets/icons/icon_collapse.svg" type="Texture" id=6]
 
 [node name="Main" type="MarginContainer"]
 anchor_right = 1.0
@@ -24,7 +29,42 @@ margin_bottom = 591.0
 margin_right = 1006.0
 margin_bottom = 20.0
 
+[node name="Items" type="ToolButton" parent="VBox/Menu"]
+margin_right = 28.0
+margin_bottom = 24.0
+hint_tooltip = "A-Z"
+icon = ExtResource( 4 )
+
+[node name="Groups" type="ToolButton" parent="VBox/Menu"]
+margin_left = 32.0
+margin_right = 60.0
+margin_bottom = 24.0
+hint_tooltip = "Group"
+icon = ExtResource( 2 )
+
+[node name="Tree" type="ToolButton" parent="VBox/Menu"]
+margin_left = 64.0
+margin_right = 92.0
+margin_bottom = 24.0
+hint_tooltip = "Tree view"
+icon = ExtResource( 3 )
+
+[node name="Random" type="ToolButton" parent="VBox/Menu"]
+margin_left = 96.0
+margin_right = 124.0
+margin_bottom = 24.0
+hint_tooltip = "Randomize"
+icon = ExtResource( 5 )
+
+[node name="Reset" type="ToolButton" parent="VBox/Menu"]
+margin_left = 128.0
+margin_right = 156.0
+margin_bottom = 24.0
+hint_tooltip = "Reset weightings"
+icon = ExtResource( 6 )
+
 [node name="sp" type="Control" parent="VBox/Menu"]
+margin_left = 160.0
 margin_right = 960.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
@@ -170,6 +210,11 @@ size_flags_horizontal = 3
 one_shot = true
 
 [connection signal="resized" from="." to="." method="_on_Main_resized"]
+[connection signal="pressed" from="VBox/Menu/Items" to="." method="_on_Items_pressed"]
+[connection signal="pressed" from="VBox/Menu/Groups" to="." method="_on_Groups_pressed"]
+[connection signal="pressed" from="VBox/Menu/Tree" to="." method="_on_Tree_pressed"]
+[connection signal="pressed" from="VBox/Menu/Random" to="." method="_on_Random_pressed"]
+[connection signal="pressed" from="VBox/Menu/Reset" to="." method="_on_Reset_pressed"]
 [connection signal="text_changed" from="VBox/SS" to="." method="_on_SS_text_changed"]
 [connection signal="pressed" from="c/Licences/M/VBox/HBox/ok" to="." method="_on_ok_pressed"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
