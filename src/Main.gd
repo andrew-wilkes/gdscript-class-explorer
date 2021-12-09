@@ -273,6 +273,8 @@ func _on_Items_pressed():
 		Data.settings.list_mode = LIST_MODE.ALPHA
 		Data.settings_changed = true
 		set_tree_visibility(false)
+		$VBox/Menu/Random.disabled = false
+		$VBox/Menu/Reset.disabled = false
 		update_weighted_labels()
 
 
@@ -282,6 +284,8 @@ func _on_Groups_pressed():
 	else:
 		Data.settings.list_mode = LIST_MODE.GROUP
 		set_tree_visibility(false)
+		$VBox/Menu/Random.disabled = false
+		$VBox/Menu/Reset.disabled = true
 	Data.settings_changed = true
 	update_labels_by_group()
 
@@ -291,6 +295,8 @@ func _on_Tree_pressed():
 		Data.settings.list_mode = LIST_MODE.TREE
 		Data.settings_changed = true
 		set_tree_visibility(true)
+		$VBox/Menu/Random.disabled = true
+		$VBox/Menu/Reset.disabled = true
 
 
 func _on_Random_pressed():
