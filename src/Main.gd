@@ -4,9 +4,9 @@ enum { ABOUT, DOCS, QA, LICENCES, GODOT }
 
 enum LIST_MODE { ALPHA, TREE, GROUP, RAND }
 enum SORT_ORDER { AZ, ZA }
-enum GROUP_MODE { ANY, CONTROL, D2, D3, TYPE }
 
 const ICONS_PATH = "res://assets/icons/"
+const node_groups = ["Spatial", "Control", "Node2D", "Others"]
 
 export(Color) var class_text_highlight_color = Color.green
 export(Color) var class_text_normal_color = Color.white
@@ -47,7 +47,11 @@ func _ready():
 	map_icons("Object")
 	map_other_icons()
 	button_color = grid.get_child(0).modulate
-	update_labels()
+	match Data.settings.list_mode:
+		LIST_MODE.ALPHA:
+			update_weighted_labels()
+		LIST_MODE.GROUP:
+			update_labels_by_group()
 	clear_search_box()
 	grid.columns = 1
 	call_deferred("arrange_controls")
@@ -106,10 +110,10 @@ func item_pressed(button):
 			break
 	Data.selected_class = button.text
 	var _e = get_tree().change_scene("res://ClassDetails.tscn")
-	update_labels()
+	update_weighted_labels()
 
 
-func update_labels():
+func update_weighted_labels():
 	var weights = []
 	var weighted_items = []
 	var unweighted_items = []
@@ -126,23 +130,48 @@ func update_labels():
 	for weight in weights:
 		for item in weighted_items: # Find first item with this weight
 			if item.weight == weight:
-				var button: Button = grid.get_child(i)
-				button.text = item.keyword
-				button.hint_tooltip = get_brief_description(item.keyword)
-				button.set("custom_colors/font_color", class_text_highlight_color)
-				button.icon = icons.get(item.keyword)
+				configure_button(item, i, class_text_highlight_color)
 				item.weight = 0 # Skip this item for this weight from now on
 				break
 		i += 1
 	for item in unweighted_items:
-		var button: Button = grid.get_child(i)
-		button.text = item.keyword
-		button.hint_tooltip = get_brief_description(item.keyword)
-		button.set("custom_colors/font_color", class_text_normal_color)
-		button.icon = icons.get(item.keyword)
+		configure_button(item, i)
 		i += 1
-	for item in grid.get_children():
-		item.visible = true
+
+
+func update_labels_by_group():
+	var idx = 0
+	for i in node_groups.size():
+		var base_node = node_groups[wrapi(Data.settings.group_mode + i, 0, node_groups.size())]
+		var others = false
+		if base_node != "Others":
+			idx = configure_button_tree(base_node, idx, others)
+		else:
+			others = true
+			for key in Data.class_tree.keys():
+				if Data.class_tree[key][0].length() == 0:
+					idx = configure_button_tree(key, idx, others)
+
+
+func configure_button_tree(cname: String, idx: int, others: bool):
+	# Skip child nodes of Node if already processed
+	if others and cname in node_groups:
+		return idx
+	configure_button(Data.get_user_class(cname), idx)
+	idx += 1
+	for i in range(1, Data.class_tree[cname].size()):
+		var child = Data.class_tree[cname][i]
+		idx = configure_button_tree(Data.get_user_class(child).keyword, idx, others)
+	return idx
+
+
+func configure_button(item: ClassItem, idx: int, text_color: Color = class_text_normal_color):
+	var button: Button = grid.get_child(idx)
+	button.text = item.keyword
+	button.hint_tooltip = get_brief_description(item.keyword)
+	button.set("custom_colors/font_color", text_color)
+	button.icon = icons.get(item.keyword)
+	button.visible = true
 
 
 func _on_SS_text_changed(new_text: String):
@@ -200,33 +229,30 @@ func _on_Main_resized():
 
 
 func _on_Items_pressed():
-	if Data.settings.list_mode == LIST_MODE.ALPHA:
-		pass
-	else:
-		Settings.list_mode = LIST_MODE.ALPHA
+	if Data.settings.list_mode != LIST_MODE.ALPHA:
+		Data.settings.list_mode = LIST_MODE.ALPHA
+		Data.settings_changed = true
 
 
 func _on_Groups_pressed():
 	if Data.settings.list_mode == LIST_MODE.GROUP:
-		Data.settings.group_mode = wrapi(Data.settings.group_mode + 1, 0, GROUP_MODE.size())
+		Data.settings.group_mode = posmod(Data.settings.group_mode + 1, node_groups.size())
 	else:
 		Data.settings.list_mode = LIST_MODE.GROUP
-	print(Data.settings.group_mode)
+	Data.settings_changed = true
+	update_labels_by_group()
 
 
 func _on_Tree_pressed():
-	if Data.settings.list_mode == LIST_MODE.TREE:
-		pass
-	else:
+	if Data.settings.list_mode != LIST_MODE.TREE:
 		Data.settings.list_mode = LIST_MODE.TREE
+		Data.settings_changed = true
 
 
 func _on_Random_pressed():
-	if Data.settings.list_mode == LIST_MODE.RAND:
-		pass
-	else:
-		Data.settings.list_mode = LIST_MODE.RAND
-	var arr = rand_seed(Data.settings.rseed)
+	Data.settings.list_mode = LIST_MODE.RAND
+	var _arr = rand_seed(Data.settings.rseed)
+	Data.settings_changed = true
 
 
 func _on_Reset_pressed():
@@ -236,4 +262,5 @@ func _on_Reset_pressed():
 			changed = true
 			class_item.weight = 0
 	if changed:
-		update_labels()
+		update_weighted_labels()
+		Data.settings_changed = true
