@@ -52,6 +52,8 @@ func _ready():
 			update_weighted_labels()
 		LIST_MODE.GROUP:
 			update_labels_by_group()
+		LIST_MODE.RAND:
+			randomize_buttons()
 	clear_search_box()
 	grid.columns = 1
 	call_deferred("arrange_controls")
@@ -153,6 +155,15 @@ func update_labels_by_group():
 					idx = configure_button_tree(key, idx, others)
 
 
+func randomize_buttons():
+	var items = Data.settings.class_list.duplicate()
+	items.shuffle()
+	var idx = 0
+	for item in items:
+		configure_button(item, idx)
+		idx += 1
+
+
 func configure_button_tree(cname: String, idx: int, others: bool):
 	# Skip child nodes of Node if already processed
 	if others and cname in node_groups:
@@ -232,6 +243,7 @@ func _on_Items_pressed():
 	if Data.settings.list_mode != LIST_MODE.ALPHA:
 		Data.settings.list_mode = LIST_MODE.ALPHA
 		Data.settings_changed = true
+		update_weighted_labels()
 
 
 func _on_Groups_pressed():
@@ -253,6 +265,8 @@ func _on_Random_pressed():
 	Data.settings.list_mode = LIST_MODE.RAND
 	var _arr = rand_seed(Data.settings.rseed)
 	Data.settings_changed = true
+	randomize_buttons()
+	
 
 
 func _on_Reset_pressed():
