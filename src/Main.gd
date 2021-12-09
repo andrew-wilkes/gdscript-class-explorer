@@ -190,7 +190,7 @@ func build_tree(tree: Tree, tree_item: TreeItem, cname):
 	#item.add_button(0, icons[cname], Data.class_list_key_map[cname], false, get_brief_description(cname))
 	item.set_text(0, cname)
 	item.set_icon(0, icons[cname])
-	item.set_text(1, get_brief_description(cname))
+	item.set_text(1, get_brief_description(cname).trim_prefix("</")) # Trim garbage from empty text
 	var idx = 0
 	for child in Data.class_tree[cname]:
 		if idx > 0:
