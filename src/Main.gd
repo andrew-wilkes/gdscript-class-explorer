@@ -19,7 +19,6 @@ var grid
 var the_tree
 var b_container
 var link_icon = preload("res://assets/icons/icon_instance.svg")
-var icons = {}
 var icon_files = {}
 
 func _ready():
@@ -42,7 +41,7 @@ func _ready():
 		var button = list_button.instance()
 		grid.add_child(button)
 		button.connect("pressed", self, "item_pressed", [button])
-		icons[cname] = cname.to_lower() # Use this value to compare to icon file names
+		Data.icons[cname] = cname.to_lower() # Use this value to compare to icon file names
 	get_icon_files()
 	map_icons("Object")
 	map_other_icons()
@@ -89,10 +88,10 @@ func get_icon_files():
 # Traverse the tree
 func map_icons(cname):
 	if icon_files.get(cname.to_lower()): # Check for matching icon file
-		icons[cname] = icon_files[cname.to_lower()]
+		Data.icons[cname] = icon_files[cname.to_lower()]
 	else:
 		# Use same icon as parent
-		icons[cname] = icons[Data.class_tree[cname][0]]
+		Data.icons[cname] = Data.icons[Data.class_tree[cname][0]]
 	var idx = 0
 	for child in Data.class_tree[cname]:
 		if idx > 0:
@@ -103,7 +102,7 @@ func map_icons(cname):
 func map_other_icons():
 	for cname in Data.classes.keys():
 		if cname.begins_with("@"):
-			icons[cname] = icon_files["arrowright"]
+			Data.icons[cname] = icon_files["arrowright"]
 		elif Data.class_tree[cname][0].length() == 0:
 			map_icons(cname)
 
@@ -187,7 +186,7 @@ func build_tree(tree: Tree, tree_item: TreeItem, cname):
 	var item = tree.create_item(tree_item)
 	#item.add_button(0, icons[cname], Data.class_list_key_map[cname], false, get_brief_description(cname))
 	item.set_text(0, cname)
-	item.set_icon(0, icons[cname])
+	item.set_icon(0, Data.icons[cname])
 	item.set_text(1, get_brief_description(cname).trim_prefix("</")) # Trim garbage from empty text
 	var idx = 0
 	for child in Data.class_tree[cname]:
@@ -212,7 +211,7 @@ func configure_button(button: Button, item: ClassItem, text_color: Color = class
 	button.text = item.keyword
 	button.hint_tooltip = get_brief_description(item.keyword)
 	button.set("custom_colors/font_color", text_color)
-	button.icon = icons.get(item.keyword)
+	button.icon = Data.icons.get(item.keyword)
 	button.visible = true
 
 

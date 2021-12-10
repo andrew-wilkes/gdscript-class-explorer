@@ -39,6 +39,10 @@ func convert_colors(txt: String):
 		if rgb_code.length() > 0:
 			var rgb = rgb_code.split(", ")
 			if rgb.size() > 2:
-				var bbcode = "[color=#%02x%02x%02x]%s[/color]" % [float(rgb[0]) * 255, float(rgb[1]) * 255, float(rgb[2]) * 255, col_code]
+				var bbcode = "[color=#%02x%02x%02x]%s[/color]" % [rgb_to_num(rgb[0]), rgb_to_num(rgb[1]), rgb_to_num(rgb[2]), col_code]
 				txt = txt.replace(col_code, bbcode)
 	return txt
+
+
+func rgb_to_num(rgb):
+	return float(rgb) * 255

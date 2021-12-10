@@ -66,9 +66,15 @@ text = "Button"
 
 [node name="Sp1" type="Control" parent="SC/H/VBox/HBox"]
 margin_left = 171.0
-margin_right = 603.0
+margin_right = 593.0
 margin_bottom = 38.0
 size_flags_horizontal = 3
+
+[node name="Icon" type="TextureRect" parent="SC/H/VBox/HBox"]
+margin_left = 603.0
+margin_right = 603.0
+margin_bottom = 38.0
+size_flags_vertical = 3
 
 [node name="VBox" type="VBoxContainer" parent="SC/H/VBox/HBox"]
 margin_left = 613.0

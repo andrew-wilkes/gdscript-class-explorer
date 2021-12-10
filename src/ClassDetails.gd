@@ -91,6 +91,7 @@ func update_content(cname, new = true):
 		bdescbox.show()
 		find_node("BDesc").set_content(info.brief_description)
 		desc.set_content(info.description)
+		find_node("Icon").texture = Data.icons[cname]
 	else:
 		bdescbox.hide()
 	weight.value = current_class.weight
@@ -145,7 +146,7 @@ func add_items_to_tab(prop, tab: RichContent, items):
 				content.append(mstrs[0])
 				description_groups.append([key, mstrs[1]])
 			content.append("[/table]\n")
-			content.append("Method Descriptions\n")
+			content.append("[b]Method Descriptions[/b]\n")
 			line_number += 4
 			for description_group in description_groups:
 				# Add base method anchor point
@@ -165,7 +166,7 @@ func add_items_to_tab(prop, tab: RichContent, items):
 				content.append(pstrs[0])
 				descriptions.append([key, pstrs[1]])
 			content.append("[/table]\n")
-			content.append("Property Descriptions\n")
+			content.append("[b]Property Descriptions[/b]\n")
 			line_number += 4
 			for d in descriptions:
 				add_anchor(tab, prop, d[0], line_number)
@@ -181,7 +182,7 @@ func add_items_to_tab(prop, tab: RichContent, items):
 		"signals":
 			for item in items:
 				add_anchor(tab, prop, item.name, line_number)
-				var code = item.name + "(" + get_args(item.args) + ")\n[indent]" + item.description + "[/indent]\n"
+				var code = item.name + "(" + get_args(item.args) + ")\n[indent]" + item.get("description", "") + "[/indent]\n"
 				content.append(code)
 				line_number += code.split("\n").size()
 		"constants":
@@ -494,3 +495,9 @@ func _on_Notes_text_changed():
 
 func _on_Classes_pressed():
 	var _e = get_tree().change_scene("res://Main.tscn")
+
+
+func _unhandled_input(event):
+	if event is InputEventKey:
+		if event.pressed and event.scancode == KEY_ESCAPE:
+			_on_Classes_pressed()
