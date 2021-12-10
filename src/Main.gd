@@ -21,6 +21,7 @@ var b_container
 var link_icon = preload("res://assets/icons/icon_instance.svg")
 var icon_files = {}
 var tree_map = {}
+var sort_reversed = false
 
 func _ready():
 	var hm = $VBox/Menu/Help.get_popup()
@@ -161,6 +162,8 @@ func update_weighted_labels():
 				item.weight = 0 # Skip this item for this weight from now on
 				break
 		idx += 1
+	if sort_reversed:
+		unweighted_items.invert()
 	for item in unweighted_items:
 		configure_button(grid.get_child(idx), item)
 		idx += 1
@@ -316,8 +319,10 @@ func _on_Items_pressed():
 		Data.settings.list_mode = LIST_MODE.ALPHA
 		Data.settings_changed = true
 		set_visibility(false, false, false)
-		update_weighted_labels()
-		clear_search_box()
+	else:
+		sort_reversed = not sort_reversed
+	update_weighted_labels()
+	clear_search_box()
 
 
 func _on_Groups_pressed():
@@ -326,7 +331,7 @@ func _on_Groups_pressed():
 	else:
 		Data.settings.list_mode = LIST_MODE.GROUP
 		set_visibility(false, false, true)
-		clear_search_box()
+	clear_search_box()
 	Data.settings_changed = true
 	update_labels_by_group()
 
@@ -336,7 +341,7 @@ func _on_Tree_pressed():
 		Data.settings.list_mode = LIST_MODE.TREE
 		Data.settings_changed = true
 		set_visibility(true, true, true)
-		clear_search_box()
+	clear_search_box()
 
 
 func _on_Random_pressed():
