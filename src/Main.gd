@@ -317,6 +317,7 @@ func _on_Items_pressed():
 		Data.settings_changed = true
 		set_visibility(false, false, false)
 		update_weighted_labels()
+		clear_search_box()
 
 
 func _on_Groups_pressed():
@@ -325,6 +326,7 @@ func _on_Groups_pressed():
 	else:
 		Data.settings.list_mode = LIST_MODE.GROUP
 		set_visibility(false, false, true)
+		clear_search_box()
 	Data.settings_changed = true
 	update_labels_by_group()
 
@@ -334,12 +336,14 @@ func _on_Tree_pressed():
 		Data.settings.list_mode = LIST_MODE.TREE
 		Data.settings_changed = true
 		set_visibility(true, true, true)
+		clear_search_box()
 
 
 func _on_Random_pressed():
 	Data.settings.list_mode = LIST_MODE.RAND
 	Data.settings_changed = true
 	randomize_buttons()
+
 
 
 func _on_Reset_pressed():
@@ -351,3 +355,4 @@ func _on_Reset_pressed():
 	if changed:
 		update_weighted_labels()
 		Data.settings_changed = true
+	clear_search_box()
