@@ -224,5 +224,6 @@ one_shot = true
 [connection signal="pressed" from="VBox/Menu/Random" to="." method="_on_Random_pressed"]
 [connection signal="pressed" from="VBox/Menu/Reset" to="." method="_on_Reset_pressed"]
 [connection signal="text_changed" from="VBox/SS" to="." method="_on_SS_text_changed"]
+[connection signal="item_activated" from="VBox/Tree" to="." method="_on_Tree_item_activated"]
 [connection signal="pressed" from="c/Licences/M/VBox/HBox/ok" to="." method="_on_ok_pressed"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

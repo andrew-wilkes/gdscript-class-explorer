@@ -16,10 +16,11 @@ var list_button = preload("res://ListButton.tscn")
 var item_desc = {}
 var class_details_scene = preload("res://ClassDetails.tscn")
 var grid
-var the_tree
+var the_tree: Tree
 var b_container
 var link_icon = preload("res://assets/icons/icon_instance.svg")
 var icon_files = {}
+var tree_map = {}
 
 func _ready():
 	var hm = $VBox/Menu/Help.get_popup()
@@ -121,14 +122,20 @@ func clear_search_box():
 
 
 func item_pressed(button):
-	clear_search_box()
 	$VBox/BC.scroll_vertical = 0
+	show_details(button.text)
+
+
+func show_details(cname):
+	Data.selected_class = cname
+	clear_search_box()
+	# Update weight of selected class
 	for class_item in Data.settings.class_list:
-		if class_item.keyword == button.text:
+		if class_item.keyword == cname:
 			class_item.weight += 1
 			Data.settings_changed = true
 			break
-	Data.selected_class = button.text
+	
 	var _e = get_tree().change_scene("res://ClassDetails.tscn")
 	update_weighted_labels()
 
@@ -182,17 +189,26 @@ func randomize_buttons():
 		idx += 1
 
 
-func build_tree(tree: Tree, tree_item: TreeItem, cname):
+func build_tree(tree: Tree, tree_item: TreeItem, cname: String):
 	var item = tree.create_item(tree_item)
-	#item.add_button(0, icons[cname], Data.class_list_key_map[cname], false, get_brief_description(cname))
+	tree_map[cname.to_lower()] = item # Used for search
 	item.set_text(0, cname)
 	item.set_icon(0, Data.icons[cname])
 	item.set_text(1, get_brief_description(cname).trim_prefix("</")) # Trim garbage from empty text
+	# List child nodes that have children first
+	var a_nodes = []
+	var b_nodes = []
 	var idx = 0
 	for child in Data.class_tree[cname]:
 		if idx > 0:
-			build_tree(tree, item, child)
+			if Data.class_tree[child].size() > 1:
+				a_nodes.append(child)
+			else:
+				b_nodes.append(child)
 		idx += 1
+	a_nodes.append_array(b_nodes)
+	for child in a_nodes:
+		build_tree(tree, item, child)
 
 
 func configure_button_tree(cname: String, idx: int, others: bool):
@@ -216,12 +232,42 @@ func configure_button(button: Button, item: ClassItem, text_color: Color = class
 
 
 func _on_SS_text_changed(new_text: String):
+	if Data.settings.list_mode == LIST_MODE.TREE:
+		search_tree(new_text.to_lower())
+	else:
+		search_grid(new_text.to_lower())
+
+
+func search_tree(new_text: String):
+	if new_text.length() > 1:
+		# Find close match
+		for cname in tree_map.keys():
+			if cname.begins_with(new_text):
+				the_tree.scroll_to_item(tree_map[cname])
+				tree_map[cname].select(0)
+				return
+		for cname in tree_map.keys():
+			if new_text in cname:
+				the_tree.scroll_to_item(tree_map[cname])
+				tree_map[cname].select(0)
+				return
+	the_tree.get_root().select(0)
+	the_tree.scroll_to_item(the_tree.get_root())
+
+
+func _on_Tree_item_activated():
+	var cname = the_tree.get_selected().get_text(0)
+	the_tree.get_root().select(0)
+	show_details(cname)
+
+
+func search_grid(new_text: String):
 	var matches = []
 	if new_text.length() > 1:
 		# Find close matches
 		var idx = 0
 		for item in grid.get_children():
-			if new_text.to_lower() in item.text.to_lower():
+			if new_text in item.text.to_lower():
 				matches.append(idx)
 			idx += 1
 	# Make all visible or just those matched
