@@ -13,7 +13,6 @@ export(Color) var class_text_normal_color = Color.white
 
 var list: VBoxContainer
 var list_button = preload("res://ListButton.tscn")
-var button_color: Color
 var item_desc = {}
 var class_details_scene = preload("res://ClassDetails.tscn")
 var grid
@@ -55,17 +54,16 @@ func _ready():
 		if Data.class_tree[key].size() == 1 and Data.class_tree[key][0].length() == 0:
 			build_tree(the_tree, root, key)
 	
-	button_color = grid.get_child(0).modulate
 	update_weighted_labels()
 	match Data.settings.list_mode:
 		LIST_MODE.ALPHA:
 			set_visibility(false, false, false)
 		LIST_MODE.GROUP:
 			update_labels_by_group()
-			set_visibility(false, true, false)
+			set_visibility(false, false, true)
 		LIST_MODE.RAND:
 			randomize_buttons()
-			set_visibility(false, true, false)
+			set_visibility(false, false, true)
 		LIST_MODE.TREE:
 			set_visibility(true, true, true)
 	clear_search_box()
@@ -165,7 +163,7 @@ func update_weighted_labels():
 func update_labels_by_group():
 	var idx = 0
 	for i in node_groups.size():
-		var base_node = node_groups[wrapi(Data.settings.group_mode + i, 0, node_groups.size())]
+		var base_node = node_groups[posmod(Data.settings.group_mode + i, node_groups.size())]
 		var others = false
 		if base_node != "Others":
 			idx = configure_button_tree(base_node, idx, others)
@@ -178,7 +176,7 @@ func update_labels_by_group():
 
 func randomize_buttons():
 	var items = Data.settings.class_list.duplicate()
-	items.shuffle()
+	items.shuffle() # Cannot store seed for shuffle
 	var idx = 0
 	for item in items:
 		configure_button(grid.get_child(idx), item)
@@ -239,10 +237,6 @@ func get_brief_description(key):
 	return item_desc[key]
 
 
-func _on_ClassExplorer_pressed():
-	var _e = get_tree().change_scene("res://ClassList.tscn")
-
-
 func _on_HelpMenu_id_pressed(id):
 	match id:
 		ABOUT:
@@ -299,7 +293,6 @@ func _on_Tree_pressed():
 
 func _on_Random_pressed():
 	Data.settings.list_mode = LIST_MODE.RAND
-	var _arr = rand_seed(Data.settings.rseed)
 	Data.settings_changed = true
 	randomize_buttons()
 
