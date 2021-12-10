@@ -50,7 +50,7 @@ func _ready():
 	descbox.hide()
 	notes.get_parent().hide()
 	if Data.selected_class == "":
-		update_content("Object")
+		update_content(Data.object_class_name)
 	else:
 		update_content(Data.selected_class)
 

@@ -44,12 +44,12 @@ func _ready():
 		button.connect("pressed", self, "item_pressed", [button])
 		Data.icons[cname] = cname.to_lower() # Use this value to compare to icon file names
 	get_icon_files()
-	map_icons("Object")
+	map_icons(Data.object_class_name)
 	map_other_icons()
 	
 	the_tree = find_node("Tree")
 	var root = the_tree.create_item()
-	build_tree(the_tree, root, "Object")
+	build_tree(the_tree, root, Data.object_class_name)
 	for key in Data.class_tree.keys():
 		if Data.class_tree[key].size() == 1 and Data.class_tree[key][0].length() == 0:
 			build_tree(the_tree, root, key)
