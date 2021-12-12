@@ -279,11 +279,12 @@ text = "OK"
 [node name="HTTPRequest" type="HTTPRequest" parent="c/FileDownload"]
 
 [node name="Alert" type="AcceptDialog" parent="c/FileDownload"]
-margin_left = -28.0
-margin_top = -108.0
-margin_right = 496.0
-margin_bottom = -13.0
-window_title = "HTTP Request Error"
+visible = true
+margin_left = 563.0
+margin_top = 8.0
+margin_right = 955.0
+margin_bottom = 82.0
+window_title = "Download Status"
 __meta__ = {
 "_edit_use_anchors_": false
 }

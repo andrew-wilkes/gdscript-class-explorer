@@ -19,15 +19,18 @@ var grid
 var the_tree: Tree
 var b_container
 var link_icon = preload("res://assets/icons/icon_instance.svg")
+var download_icon = preload("res://assets/icons/icon_asset_lib.svg")
+var extract_icon = preload("res://assets/icons/icon_distraction_free.svg")
+var select_icon = preload("res://assets/icons/icon_loop.svg")
 var icon_files = {}
 var tree_map = {}
 var sort_reversed = false
 
 func _ready():
 	var fm = $VBox/Menu/File.get_popup()
-	fm.add_icon_item(link_icon, "Download Source Code", DOWNLOAD)
-	fm.add_icon_item(link_icon, "Extract Data", EXTRACT)
-	fm.add_icon_item(link_icon, "Select Version", SELECT)
+	fm.add_icon_item(download_icon, "Download Source Code", DOWNLOAD)
+	fm.add_icon_item(extract_icon, "Extract Data", EXTRACT)
+	fm.add_icon_item(select_icon, "Select Version", SELECT)
 	fm.connect("id_pressed", self, "_on_FileMenu_id_pressed")
 	var hm = $VBox/Menu/Help.get_popup()
 	hm.add_icon_item(link_icon, "Online Documentation", DOCS)
