@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/icons/icon_panels_4.svg" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://assets/icons/icon_tile_map.svg" type="Texture" id=4]
 [ext_resource path="res://assets/icons/icon_loop.svg" type="Texture" id=5]
 [ext_resource path="res://assets/icons/icon_collapse.svg" type="Texture" id=6]
+[ext_resource path="res://FileDownload.gd" type="Script" id=7]
 
 [node name="Main" type="MarginContainer"]
 anchor_right = 1.0
@@ -65,9 +66,18 @@ icon = ExtResource( 6 )
 
 [node name="sp" type="Control" parent="VBox/Menu"]
 margin_left = 160.0
-margin_right = 960.0
+margin_right = 921.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
+
+[node name="File" type="MenuButton" parent="VBox/Menu"]
+margin_left = 925.0
+margin_right = 960.0
+margin_bottom = 24.0
+text = "File"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Help" type="MenuButton" parent="VBox/Menu"]
 margin_left = 964.0
@@ -214,6 +224,70 @@ margin_right = 582.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 
+[node name="FileDownload" type="WindowDialog" parent="c"]
+visible = true
+margin_left = 28.0
+margin_top = 108.0
+margin_right = 557.0
+margin_bottom = 203.0
+window_title = "Download Source Code"
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBox" type="VBoxContainer" parent="c/FileDownload"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 521.0
+margin_bottom = 82.0
+custom_constants/separation = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="c/FileDownload/VBox"]
+margin_right = 513.0
+margin_bottom = 14.0
+text = "Choose URL of ZIP file:"
+
+[node name="Master" type="Button" parent="c/FileDownload/VBox"]
+margin_top = 24.0
+margin_right = 513.0
+margin_bottom = 44.0
+text = "https://github.com/godotengine/godot/archive/refs/heads/master.zip"
+align = 0
+
+[node name="HBox" type="HBoxContainer" parent="c/FileDownload/VBox"]
+margin_top = 54.0
+margin_right = 513.0
+margin_bottom = 78.0
+custom_constants/separation = 10
+
+[node name="LineEdit" type="LineEdit" parent="c/FileDownload/VBox/HBox"]
+margin_right = 472.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+text = "https://github.com/godotengine/godot/archive/refs/heads/3.4.zip"
+
+[node name="OK" type="Button" parent="c/FileDownload/VBox/HBox"]
+margin_left = 482.0
+margin_right = 513.0
+margin_bottom = 24.0
+text = "OK"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="c/FileDownload"]
+
+[node name="Alert" type="AcceptDialog" parent="c/FileDownload"]
+margin_left = -28.0
+margin_top = -108.0
+margin_right = 496.0
+margin_bottom = -13.0
+window_title = "HTTP Request Error"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 
@@ -226,4 +300,10 @@ one_shot = true
 [connection signal="text_changed" from="VBox/SS" to="." method="_on_SS_text_changed"]
 [connection signal="item_activated" from="VBox/Tree" to="." method="_on_Tree_item_activated"]
 [connection signal="pressed" from="c/Licences/M/VBox/HBox/ok" to="." method="_on_ok_pressed"]
+[connection signal="pressed" from="c/FileDownload/VBox/Master" to="c/FileDownload" method="_on_Master_pressed"]
+[connection signal="text_changed" from="c/FileDownload/VBox/HBox/LineEdit" to="c/FileDownload" method="_on_LineEdit_text_changed"]
+[connection signal="text_entered" from="c/FileDownload/VBox/HBox/LineEdit" to="c/FileDownload" method="_on_LineEdit_text_entered"]
+[connection signal="pressed" from="c/FileDownload/VBox/HBox/OK" to="c/FileDownload" method="_on_OK_pressed"]
+[connection signal="request_completed" from="c/FileDownload/HTTPRequest" to="c/FileDownload" method="_on_HTTPRequest_request_completed"]
+[connection signal="popup_hide" from="c/FileDownload/Alert" to="c/FileDownload" method="_on_Alert_popup_hide"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

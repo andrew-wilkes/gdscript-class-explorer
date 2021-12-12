@@ -1,6 +1,6 @@
 extends Control
 
-enum { ABOUT, DOCS, QA, LICENCES, GODOT }
+enum { ABOUT, DOCS, QA, LICENCES, GODOT, DOWNLOAD, EXTRACT, SELECT }
 
 enum LIST_MODE { ALPHA, TREE, GROUP, RAND }
 enum SORT_ORDER { AZ, ZA }
@@ -24,6 +24,11 @@ var tree_map = {}
 var sort_reversed = false
 
 func _ready():
+	var fm = $VBox/Menu/File.get_popup()
+	fm.add_icon_item(link_icon, "Download Source Code", DOWNLOAD)
+	fm.add_icon_item(link_icon, "Extract Data", EXTRACT)
+	fm.add_icon_item(link_icon, "Select Version", SELECT)
+	fm.connect("id_pressed", self, "_on_FileMenu_id_pressed")
 	var hm = $VBox/Menu/Help.get_popup()
 	hm.add_icon_item(link_icon, "Online Documentation", DOCS)
 	hm.add_icon_item(link_icon, "Questions & Answers", QA)
@@ -361,3 +366,17 @@ func _on_Reset_pressed():
 		update_weighted_labels()
 		Data.settings_changed = true
 	clear_search_box()
+
+
+func _on_FileMenu_id_pressed(id):
+	match id:
+		DOWNLOAD:
+			$c/FileDownload.popup_centered()
+		EXTRACT:
+			$c/Licences.popup_centered()
+		SELECT:
+			var _e = OS.shell_open("https://godotengine.org/")
+
+
+func _on_FileDownload_url_selected(url):
+	print(url)
