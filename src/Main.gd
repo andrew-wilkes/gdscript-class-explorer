@@ -376,7 +376,7 @@ func _on_FileMenu_id_pressed(id):
 		DOWNLOAD:
 			$c/FileDownload.popup_centered()
 		EXTRACT:
-			$c/Licences.popup_centered()
+			$c/ZipExtract.popup_centered()
 			# unzip -u 3.4.zip "godot-3.4/doc/classes/*" -d 3.4
 		SELECT:
 			var _e = OS.shell_open("https://godotengine.org/")

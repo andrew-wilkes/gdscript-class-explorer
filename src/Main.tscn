@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/icons/icon_panels_4.svg" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://assets/icons/icon_loop.svg" type="Texture" id=5]
 [ext_resource path="res://assets/icons/icon_collapse.svg" type="Texture" id=6]
 [ext_resource path="res://FileDownload.gd" type="Script" id=7]
+[ext_resource path="res://ZipExtract.gd" type="Script" id=8]
 
 [node name="Main" type="MarginContainer"]
 anchor_right = 1.0
@@ -293,8 +294,9 @@ visible = true
 margin_left = 28.0
 margin_top = 108.0
 margin_right = 302.0
-margin_bottom = 281.0
+margin_bottom = 174.0
 window_title = "Extract Files From ZIP Archive"
+script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -303,7 +305,7 @@ __meta__ = {
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 267.0
-margin_bottom = 163.0
+margin_bottom = 68.0
 custom_constants/separation = 10
 __meta__ = {
 "_edit_use_anchors_": false
@@ -314,7 +316,7 @@ margin_right = 259.0
 margin_bottom = 14.0
 text = "Choose ZIP file:"
 
-[node name="Master" type="Button" parent="c/ZipExtract/VBox"]
+[node name="Button" type="Button" parent="c/ZipExtract/VBox"]
 margin_top = 24.0
 margin_right = 259.0
 margin_bottom = 44.0
@@ -351,4 +353,6 @@ one_shot = true
 [connection signal="pressed" from="c/FileDownload/VBox/HBox/OK" to="c/FileDownload" method="_on_OK_pressed"]
 [connection signal="request_completed" from="c/FileDownload/HTTPRequest" to="c/FileDownload" method="_on_HTTPRequest_request_completed"]
 [connection signal="popup_hide" from="c/FileDownload/Alert" to="c/FileDownload" method="_on_Alert_popup_hide"]
+[connection signal="about_to_show" from="c/ZipExtract" to="c/ZipExtract" method="_on_ZipExtract_about_to_show"]
+[connection signal="popup_hide" from="c/ZipExtract/Alert" to="c/ZipExtract" method="_on_Alert_popup_hide"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
