@@ -48,21 +48,21 @@ func _ready():
 	the_tree = find_node("Tree")
 	b_container = $VBox/BC
 	
-	if Data.load_settings() and ".dat" in Data.settings.data_file:
-		if Data.load_classes():
-			setup_scene()
+	if Data.settings.data_file != "":
+		if Data.data_ok:
+			setup_class_view()
 		else:
 			bad_data()
 	else:
 		$c/Welcome.popup_centered()
 
 
-func setup_scene():
+func setup_class_view():
 	# Add buttons and build icon list
 	for cname in Data.classes.keys():
 		var button = list_button.instance()
 		grid.add_child(button)
-		button.connect("pressed", self, "item_pressed", [button])
+		button.connect("gui_input", self, "_on_Button_gui_input", [button])
 		Data.icons[cname] = cname.to_lower() # Use this value to compare to icon file names
 	get_icon_files()
 	map_icons(Data.object_class_name)
@@ -142,23 +142,34 @@ func clear_search_box():
 	$VBox/SS.text = ""
 
 
-func item_pressed(button):
-	$VBox/BC.scroll_vertical = 0
-	show_details(button.text)
+func _on_Button_gui_input(event, button):
+	if event is InputEventMouseButton and event.pressed:
+		match event.button_index:
+			BUTTON_LEFT:
+				$VBox/BC.scroll_vertical = 0
+				show_details(button.text)
+			BUTTON_RIGHT:
+				# Reset the weight
+				update_weight(button.text, 0)
 
 
 func show_details(cname):
 	Data.selected_class = cname
 	clear_search_box()
-	# Update weight of selected class
+	update_weight(cname)
+	var _e = get_tree().change_scene("res://ClassDetails.tscn")
+
+
+func update_weight(cname, n = 1):
 	for class_item in Data.settings.class_list:
 		if class_item.keyword == cname:
-			class_item.weight += 1
+			if n == 0:
+				class_item.weight = 0
+			else:
+				class_item.weight += n
 			Data.settings_changed = true
-			break
-	
-	var _e = get_tree().change_scene("res://ClassDetails.tscn")
-	update_weighted_labels()
+			update_weighted_labels()
+			return
 
 
 func update_weighted_labels():
@@ -399,7 +410,7 @@ func _on_SelectDataFile_selected_data_file(file):
 	if Data.load_classes():
 		clear_scene()
 		yield(get_tree(), "idle_frame")
-		setup_scene()
+		setup_class_view()
 	else:
 		bad_data()
 

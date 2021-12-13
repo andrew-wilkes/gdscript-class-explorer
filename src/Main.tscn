@@ -68,13 +68,13 @@ icon = ExtResource( 6 )
 
 [node name="sp" type="Control" parent="VBox/Menu"]
 margin_left = 160.0
-margin_right = 878.0
+margin_right = 921.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 
 [node name="File" type="MenuButton" parent="VBox/Menu"]
-margin_left = 882.0
-margin_right = 917.0
+margin_left = 925.0
+margin_right = 960.0
 margin_bottom = 24.0
 text = "File"
 __meta__ = {
@@ -82,16 +82,10 @@ __meta__ = {
 }
 
 [node name="Help" type="MenuButton" parent="VBox/Menu"]
-margin_left = 921.0
-margin_right = 963.0
-margin_bottom = 24.0
-text = "Help"
-
-[node name="Test" type="Button" parent="VBox/Menu"]
-margin_left = 967.0
+margin_left = 964.0
 margin_right = 1006.0
 margin_bottom = 24.0
-text = "Test"
+text = "Help"
 
 [node name="SS" type="LineEdit" parent="VBox"]
 margin_top = 28.0
@@ -401,7 +395,6 @@ dialog_text = "I was unable to extract data from the selected file: FILE"
 [connection signal="pressed" from="VBox/Menu/TreeButton" to="." method="_on_Tree_pressed"]
 [connection signal="pressed" from="VBox/Menu/Random" to="." method="_on_Random_pressed"]
 [connection signal="pressed" from="VBox/Menu/Reset" to="." method="_on_Reset_pressed"]
-[connection signal="pressed" from="VBox/Menu/Test" to="." method="_on_Test_pressed"]
 [connection signal="text_changed" from="VBox/SS" to="." method="_on_SS_text_changed"]
 [connection signal="item_activated" from="VBox/Tree" to="." method="_on_Tree_item_activated"]
 [connection signal="pressed" from="c/Licences/M/VBox/HBox/ok" to="." method="_on_ok_pressed"]

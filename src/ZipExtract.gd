@@ -33,8 +33,21 @@ func fit_content():
 
 
 func extract(button: Button):
-	if OS.execute("tar", ["-xf", button.text]) != OK:
-		alert("There was an error running tar on your computer.")
+	var file = button.text
+	var version = file.get_basename()
+	var cmd
+	var args
+	var files = [file, "godot-" + version + "/doc/classes/*", "godot-" + version + "/editor/icons/*"]
+# TAR.exe was added to Windows 10 (1903) from build 17063 or later.
+	if OS.get_name() == "Windows":
+		cmd = "tar"
+		args = ["-xf"]
+	else:
+		cmd = "unzip" # Linux and Mac support unzip
+		args = ["-u"]
+	args.append_array(files)
+	if OS.execute(cmd, args) != OK:
+		alert("There was an error running " + cmd + " on your computer.")
 		return
 	print(button.text)
 

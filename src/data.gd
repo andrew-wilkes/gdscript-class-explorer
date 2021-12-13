@@ -11,6 +11,12 @@ var class_list_key_map = {}
 var selected_class = ""
 var icons = {}
 var object_class_name = ""
+var data_ok = false
+
+func _ready():
+	load_settings()
+	data_ok = load_classes()
+
 
 # Add class info to dictionary
 func load_classes() -> bool:
@@ -120,15 +126,12 @@ func get_file_content(path) -> String:
 	return content
 
 
-func load_settings(file_name = SETTINGS_FILE_NAME) -> bool:
-	var loaded = false
+func load_settings(file_name = SETTINGS_FILE_NAME):
 	settings = Settings.new()
 	if ResourceLoader.exists(file_name):
 		var data = ResourceLoader.load(file_name)
 		if data is Settings: # Check that the data is valid
 			settings = data
-			loaded = true
-	return loaded
 
 
 func save_settings(_settings, file_name = SETTINGS_FILE_NAME):

@@ -25,23 +25,29 @@ func _on_LineEdit_text_changed(new_text: String):
 
 
 func url_selected(url: String):
-	var current_filename = url.get_file()
-	if OS.execute("curl", [url, "-o", current_filename]) != OK:
+	var file = File.new()
+	var target_filename = url.get_file().get_basename() + ".zip"
+	if file.file_exists(target_filename):
+		alert("Refused: the file already exists.")
+		return
+	alert("Downloading ...")
+	if OS.execute("curl", [url, "-L", "-o", target_filename]) != OK:
 		alert("There was an error running curl on your computer.")
 		return
-	var file = File.new()
-	if file.file_exists(current_filename):
+	if file.file_exists(target_filename):
 		alert("Done")
 		download_status = OK
-		emit_signal("dowloaded_file", current_filename)
+		emit_signal("dowloaded_file", target_filename)
 	else:
 		alert("There was an error downloading the file from:\n" + url)
 		download_status = -1
 
 
 func alert(msg):
-	get_node("Alert").dialog_text = msg
-	get_node("Alert").popup_centered()
+	var alert = get_node("Alert")
+	alert.dialog_text = msg
+	if not alert.visible:
+		alert.popup_centered()
 
 
 func _on_Alert_popup_hide():

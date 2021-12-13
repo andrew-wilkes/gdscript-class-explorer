@@ -11,3 +11,4 @@ data_*/
 # Ignore zip and data files
 *.zip
 *.dat
+src/godot-*
