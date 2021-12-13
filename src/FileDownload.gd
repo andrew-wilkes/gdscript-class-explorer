@@ -43,6 +43,10 @@ func url_selected(url: String):
 		download_status = -1
 
 
+func _ready():
+	rect_size = $VBox.rect_size + Vector2(15, 15)
+
+
 func alert(msg):
 	var alert = get_node("Alert")
 	alert.dialog_text = msg

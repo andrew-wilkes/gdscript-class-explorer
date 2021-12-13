@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/icons/icon_panels_4.svg" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://FileDownload.gd" type="Script" id=7]
 [ext_resource path="res://ZipExtract.gd" type="Script" id=8]
 [ext_resource path="res://SelectDataFile.gd" type="Script" id=9]
+[ext_resource path="res://assets/icons/icon_asset_lib.svg" type="Texture" id=10]
 
 [node name="Main" type="MarginContainer"]
 anchor_right = 1.0
@@ -228,11 +229,12 @@ margin_bottom = 20.0
 size_flags_horizontal = 3
 
 [node name="FileDownload" type="WindowDialog" parent="c"]
+visible = true
 margin_left = 28.0
 margin_top = 108.0
-margin_right = 557.0
+margin_right = 559.0
 margin_bottom = 203.0
-window_title = "Download Source Code"
+window_title = "Download Godot Source Code"
 script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -243,40 +245,54 @@ margin_left = 8.0
 margin_top = 8.0
 margin_right = 521.0
 margin_bottom = 82.0
-custom_constants/separation = 10
+custom_constants/separation = 20
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="c/FileDownload/VBox"]
-margin_right = 513.0
+margin_right = 634.0
 margin_bottom = 14.0
-text = "Choose URL of ZIP file:"
+text = "Choose Master branch (maybe not stable):"
 
 [node name="Master" type="Button" parent="c/FileDownload/VBox"]
-margin_top = 24.0
-margin_right = 513.0
-margin_bottom = 44.0
-text = "https://github.com/godotengine/godot/archive/refs/heads/master.zip"
+margin_top = 34.0
+margin_right = 634.0
+margin_bottom = 54.0
+hint_tooltip = "Click to download the latest code in development from the master branch"
+text = "https://codeload.github.com/godotengine/godot/zip/refs/heads/master"
 align = 0
 
+[node name="Label2" type="Label" parent="c/FileDownload/VBox"]
+margin_top = 74.0
+margin_right = 634.0
+margin_bottom = 88.0
+text = "Or specify a version URL of the archive file (recommended):"
+
 [node name="HBox" type="HBoxContainer" parent="c/FileDownload/VBox"]
-margin_top = 54.0
-margin_right = 513.0
-margin_bottom = 78.0
+margin_top = 108.0
+margin_right = 634.0
+margin_bottom = 132.0
 custom_constants/separation = 10
 
 [node name="LineEdit" type="LineEdit" parent="c/FileDownload/VBox/HBox"]
-margin_right = 472.0
+margin_right = 596.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
-text = "https://github.com/godotengine/godot/archive/refs/heads/3.4.zip"
+text = "https://codeload.github.com/godotengine/godot/zip/refs/heads/3.4"
 
 [node name="OK" type="Button" parent="c/FileDownload/VBox/HBox"]
-margin_left = 482.0
-margin_right = 513.0
+margin_left = 606.0
+margin_right = 634.0
 margin_bottom = 24.0
-text = "OK"
+hint_tooltip = "Download from this location"
+icon = ExtResource( 10 )
+
+[node name="Label3" type="Label" parent="c/FileDownload/VBox"]
+margin_top = 152.0
+margin_right = 634.0
+margin_bottom = 166.0
+text = "You may download more than one version of the source code and select which version to use later."
 
 [node name="HTTPRequest" type="HTTPRequest" parent="c/FileDownload"]
 
