@@ -33,6 +33,9 @@ func fit_content():
 
 
 func extract(button: Button):
+	if OS.execute("tar", ["-xf", button.text]) != OK:
+		alert("There was an error running tar on your computer.")
+		return
 	print(button.text)
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/icons/icon_panels_4.svg" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://assets/icons/icon_collapse.svg" type="Texture" id=6]
 [ext_resource path="res://FileDownload.gd" type="Script" id=7]
 [ext_resource path="res://ZipExtract.gd" type="Script" id=8]
+[ext_resource path="res://SelectDataFile.gd" type="Script" id=9]
 
 [node name="Main" type="MarginContainer"]
 anchor_right = 1.0
@@ -67,13 +68,13 @@ icon = ExtResource( 6 )
 
 [node name="sp" type="Control" parent="VBox/Menu"]
 margin_left = 160.0
-margin_right = 921.0
+margin_right = 878.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 
 [node name="File" type="MenuButton" parent="VBox/Menu"]
-margin_left = 925.0
-margin_right = 960.0
+margin_left = 882.0
+margin_right = 917.0
 margin_bottom = 24.0
 text = "File"
 __meta__ = {
@@ -81,10 +82,16 @@ __meta__ = {
 }
 
 [node name="Help" type="MenuButton" parent="VBox/Menu"]
-margin_left = 964.0
-margin_right = 1006.0
+margin_left = 921.0
+margin_right = 963.0
 margin_bottom = 24.0
 text = "Help"
+
+[node name="Test" type="Button" parent="VBox/Menu"]
+margin_left = 967.0
+margin_right = 1006.0
+margin_bottom = 24.0
+text = "Test"
 
 [node name="SS" type="LineEdit" parent="VBox"]
 margin_top = 28.0
@@ -94,7 +101,7 @@ margin_bottom = 52.0
 [node name="BC" type="ScrollContainer" parent="VBox"]
 margin_top = 56.0
 margin_right = 1006.0
-margin_bottom = 317.0
+margin_bottom = 582.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
@@ -104,6 +111,7 @@ custom_constants/vseparation = 10
 custom_constants/hseparation = 10
 
 [node name="Tree" type="Tree" parent="VBox"]
+visible = false
 margin_top = 321.0
 margin_right = 1006.0
 margin_bottom = 582.0
@@ -290,7 +298,6 @@ __meta__ = {
 }
 
 [node name="ZipExtract" type="WindowDialog" parent="c"]
-visible = true
 margin_left = 28.0
 margin_top = 108.0
 margin_right = 302.0
@@ -334,8 +341,59 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Timer" type="Timer" parent="."]
-one_shot = true
+[node name="SelectDataFile" type="WindowDialog" parent="c"]
+margin_left = 28.0
+margin_top = 108.0
+margin_right = 302.0
+margin_bottom = 174.0
+window_title = "Select Data File"
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBox" type="VBoxContainer" parent="c/SelectDataFile"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 267.0
+margin_bottom = 68.0
+custom_constants/separation = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="c/SelectDataFile/VBox"]
+margin_right = 259.0
+margin_bottom = 14.0
+text = "Choose data file:"
+
+[node name="Button" type="Button" parent="c/SelectDataFile/VBox"]
+margin_top = 24.0
+margin_right = 259.0
+margin_bottom = 44.0
+text = "something.dat"
+align = 0
+
+[node name="Welcome" type="AcceptDialog" parent="c"]
+margin_right = 582.0
+margin_bottom = 160.0
+window_title = "Welcome"
+dialog_text = "Welcome to the setup.
+
+Using the File menu:
+
+1.		File -> Download (download a zip file of the source code for the Godot version that you are interested in).
+2.		File -> Extract (extract the class data from the zip).
+3.		File -> Select a data file to use."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BadData" type="AcceptDialog" parent="c"]
+margin_right = 83.0
+margin_bottom = 58.0
+window_title = "Bad Data File"
+dialog_text = "I was unable to extract data from the selected file: FILE"
 
 [connection signal="resized" from="." to="." method="_on_Main_resized"]
 [connection signal="pressed" from="VBox/Menu/Items" to="." method="_on_Items_pressed"]
@@ -343,10 +401,10 @@ one_shot = true
 [connection signal="pressed" from="VBox/Menu/TreeButton" to="." method="_on_Tree_pressed"]
 [connection signal="pressed" from="VBox/Menu/Random" to="." method="_on_Random_pressed"]
 [connection signal="pressed" from="VBox/Menu/Reset" to="." method="_on_Reset_pressed"]
+[connection signal="pressed" from="VBox/Menu/Test" to="." method="_on_Test_pressed"]
 [connection signal="text_changed" from="VBox/SS" to="." method="_on_SS_text_changed"]
 [connection signal="item_activated" from="VBox/Tree" to="." method="_on_Tree_item_activated"]
 [connection signal="pressed" from="c/Licences/M/VBox/HBox/ok" to="." method="_on_ok_pressed"]
-[connection signal="dowloaded_file" from="c/FileDownload" to="." method="_on_FileDownload_dowloaded_file"]
 [connection signal="pressed" from="c/FileDownload/VBox/Master" to="c/FileDownload" method="_on_Master_pressed"]
 [connection signal="text_changed" from="c/FileDownload/VBox/HBox/LineEdit" to="c/FileDownload" method="_on_LineEdit_text_changed"]
 [connection signal="text_entered" from="c/FileDownload/VBox/HBox/LineEdit" to="c/FileDownload" method="_on_LineEdit_text_entered"]
@@ -355,4 +413,5 @@ one_shot = true
 [connection signal="popup_hide" from="c/FileDownload/Alert" to="c/FileDownload" method="_on_Alert_popup_hide"]
 [connection signal="about_to_show" from="c/ZipExtract" to="c/ZipExtract" method="_on_ZipExtract_about_to_show"]
 [connection signal="popup_hide" from="c/ZipExtract/Alert" to="c/ZipExtract" method="_on_Alert_popup_hide"]
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="about_to_show" from="c/SelectDataFile" to="c/SelectDataFile" method="_on_SelectDataFile_about_to_show"]
+[connection signal="selected_data_file" from="c/SelectDataFile" to="." method="_on_SelectDataFile_selected_data_file"]

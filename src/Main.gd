@@ -45,7 +45,19 @@ func _ready():
 	h.scancode = KEY_H
 	$VBox/Menu/Help.shortcut = h
 	grid = $VBox/BC/Grid
+	the_tree = find_node("Tree")
 	b_container = $VBox/BC
+	
+	if Data.load_settings() and ".dat" in Data.settings.data_file:
+		if Data.load_classes():
+			setup_scene()
+		else:
+			bad_data()
+	else:
+		$c/Welcome.popup_centered()
+
+
+func setup_scene():
 	# Add buttons and build icon list
 	for cname in Data.classes.keys():
 		var button = list_button.instance()
@@ -56,7 +68,7 @@ func _ready():
 	map_icons(Data.object_class_name)
 	map_other_icons()
 	
-	the_tree = find_node("Tree")
+	# Create Tree
 	var root = the_tree.create_item()
 	build_tree(the_tree, root, Data.object_class_name)
 	for key in Data.class_tree.keys():
@@ -315,11 +327,12 @@ func _on_Timer_timeout():
 	call_deferred("arrange_controls")
 
 
+# Check this on slower PC
 func _on_Main_resized():
 	if grid:
 		grid.columns = 1
-		if $Timer.is_stopped():
-			$Timer.start(0.5)
+		yield(get_tree(), "idle_frame")
+		call_deferred("arrange_controls")
 
 
 func _on_Items_pressed():
@@ -358,7 +371,6 @@ func _on_Random_pressed():
 	randomize_buttons()
 
 
-
 func _on_Reset_pressed():
 	var changed = false
 	for class_item in Data.settings.class_list:
@@ -379,9 +391,26 @@ func _on_FileMenu_id_pressed(id):
 			$c/ZipExtract.popup_centered()
 			# unzip -u 3.4.zip "godot-3.4/doc/classes/*" -d 3.4
 		SELECT:
-			var _e = OS.shell_open("https://godotengine.org/")
+			$c/SelectDataFile.popup_centered()
 
-var downloaded_file = ""
 
-func _on_FileDownload_dowloaded_file(_filename):
-	downloaded_file = _filename
+func _on_SelectDataFile_selected_data_file(file):
+	Data.settings.data_file = file
+	if Data.load_classes():
+		clear_scene()
+		yield(get_tree(), "idle_frame")
+		setup_scene()
+	else:
+		bad_data()
+
+
+func clear_scene():
+	the_tree.clear()
+	for node in grid.get_children():
+		node.queue_free()
+
+
+func bad_data():
+	var bd: AcceptDialog = $c/BadData
+	bd.dialog_text = bd.dialog_text.replace("FILE", Data.settings.data_file)
+	bd.popup_centered()

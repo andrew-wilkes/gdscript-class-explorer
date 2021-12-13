@@ -1,6 +1,5 @@
 extends Node
 
-const DATA_FILE = "res://classes.dat"
 const SETTINGS_FILE_NAME = "user://settings.res"
 
 var classes = {}
@@ -13,9 +12,21 @@ var selected_class = ""
 var icons = {}
 var object_class_name = ""
 
-func _ready():
-	load_classes()
-	settings = load_settings()
+# Add class info to dictionary
+func load_classes() -> bool:
+	var loaded = false
+	var data: PoolStringArray = get_file_content(settings.data_file).split("\n")
+	var i = 0
+	if data.size() > 2:
+		while i < data.size():
+			classes[data[i + 1]] = get_xml(data[i], data[i + 2])
+			i += 3
+		loaded = true
+		configure()
+	return loaded
+
+
+func configure():
 	regex = RegEx.new()
 	regex.compile('inherits="(\\w+)"')
 	var keys = classes.keys()
@@ -90,18 +101,6 @@ func get_inheritor_chain(cname):
 	return chain.join(" , ")
 
 
-# Add class info to dictionary
-func load_classes():
-	# var t = OS.get_system_time_msecs()
-	var data: PoolStringArray = get_file_content(DATA_FILE).split("\n")
-	var i = 0
-	if data.size() > 2:
-		while i < data.size():
-			classes[data[i + 1]] = get_xml(data[i], data[i + 2])
-			i += 3
-	# print(OS.get_system_time_msecs() - t)
-
-
 func get_xml(buffer_size, encoded_string: String) -> PoolByteArray:
 	var bytes = PoolByteArray([])
 	var i = 0
@@ -121,13 +120,15 @@ func get_file_content(path) -> String:
 	return content
 
 
-func load_settings(file_name = SETTINGS_FILE_NAME):
-	var _settings = Settings.new()
+func load_settings(file_name = SETTINGS_FILE_NAME) -> bool:
+	var loaded = false
+	settings = Settings.new()
 	if ResourceLoader.exists(file_name):
 		var data = ResourceLoader.load(file_name)
 		if data is Settings: # Check that the data is valid
-			_settings = data
-	return _settings
+			settings = data
+			loaded = true
+	return loaded
 
 
 func save_settings(_settings, file_name = SETTINGS_FILE_NAME):
