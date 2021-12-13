@@ -1,6 +1,7 @@
 extends WindowDialog
 
-var current_filename = ""
+signal dowloaded_file(filename)
+
 var download_status = OK
 
 func _on_OK_pressed():
@@ -24,38 +25,19 @@ func _on_LineEdit_text_changed(new_text: String):
 
 
 func url_selected(url: String):
-	# ToDo: Add platform specific code and detect errors
-	# unzip -u 3.4.zip "godot-3.4/doc/classes/*" -d 3.4
-	OS.execute("wget", [url])
-	current_filename = url.get_file()
+	var current_filename = url.get_file()
+	if OS.execute("curl", [url, "-o", current_filename]) != OK:
+		alert("There was an error running curl on your computer.")
+		return
 	var file = File.new()
 	if file.file_exists(current_filename):
 		alert("Done")
 		download_status = OK
+		emit_signal("dowloaded_file", current_filename)
 	else:
 		alert("There was an error downloading the file from:\n" + url)
 		download_status = -1
 
-	"""
-	The HTTP code didn't work. Got TLS handshake problems.
-	
-	var error = $HTTPRequest.request(url)
-	if error != OK:
-		warn("There was an error connecting to:\n" + url)
-	else:
-		hide()
-	"""
-
-"""
-func _on_HTTPRequest_request_completed(result, response_code, _headers, body):
-	if result != OK:
-		warn("There was an error code: " + str(result))
-	elif response_code != 200:
-		warn("There was a web server response code of " + str(result))
-	else:
-		var file = File.new()
-		file.store_buffer(body)
-"""
 
 func alert(msg):
 	get_node("Alert").dialog_text = msg

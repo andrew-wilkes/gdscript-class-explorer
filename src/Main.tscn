@@ -225,7 +225,6 @@ margin_bottom = 20.0
 size_flags_horizontal = 3
 
 [node name="FileDownload" type="WindowDialog" parent="c"]
-visible = true
 margin_left = 28.0
 margin_top = 108.0
 margin_right = 557.0
@@ -289,6 +288,50 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ZipExtract" type="WindowDialog" parent="c"]
+visible = true
+margin_left = 28.0
+margin_top = 108.0
+margin_right = 302.0
+margin_bottom = 281.0
+window_title = "Extract Files From ZIP Archive"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBox" type="VBoxContainer" parent="c/ZipExtract"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 267.0
+margin_bottom = 163.0
+custom_constants/separation = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="c/ZipExtract/VBox"]
+margin_right = 259.0
+margin_bottom = 14.0
+text = "Choose ZIP file:"
+
+[node name="Master" type="Button" parent="c/ZipExtract/VBox"]
+margin_top = 24.0
+margin_right = 259.0
+margin_bottom = 44.0
+text = "master.zip"
+align = 0
+
+[node name="Alert" type="AcceptDialog" parent="c/ZipExtract"]
+visible = true
+margin_left = 563.0
+margin_top = 8.0
+margin_right = 955.0
+margin_bottom = 82.0
+window_title = "Download Status"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 
@@ -301,6 +344,7 @@ one_shot = true
 [connection signal="text_changed" from="VBox/SS" to="." method="_on_SS_text_changed"]
 [connection signal="item_activated" from="VBox/Tree" to="." method="_on_Tree_item_activated"]
 [connection signal="pressed" from="c/Licences/M/VBox/HBox/ok" to="." method="_on_ok_pressed"]
+[connection signal="dowloaded_file" from="c/FileDownload" to="." method="_on_FileDownload_dowloaded_file"]
 [connection signal="pressed" from="c/FileDownload/VBox/Master" to="c/FileDownload" method="_on_Master_pressed"]
 [connection signal="text_changed" from="c/FileDownload/VBox/HBox/LineEdit" to="c/FileDownload" method="_on_LineEdit_text_changed"]
 [connection signal="text_entered" from="c/FileDownload/VBox/HBox/LineEdit" to="c/FileDownload" method="_on_LineEdit_text_entered"]
