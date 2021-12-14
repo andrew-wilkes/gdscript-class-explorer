@@ -67,17 +67,17 @@ func setup_class_view():
 		button.connect("gui_input", self, "_on_Button_gui_input", [button])
 		Data.icons[cname] = cname.to_lower() # Use this value to compare to icon file names
 	get_icon_files()
-	map_icons(Data.object_class_name)
+	map_icons("Object")
 	map_other_icons()
 	default_icon = icon_files.get("arrowright")
 	
 	# Create Tree
 	var root = the_tree.create_item()
-	build_tree(the_tree, root, Data.object_class_name)
+	build_tree(the_tree, root, "Object")
 	for key in Data.class_tree.keys():
 		if Data.class_tree[key].size() == 1 and Data.class_tree[key][0].length() == 0:
 			build_tree(the_tree, root, key)
-	
+
 	update_weighted_labels()
 	match Data.settings.list_mode:
 		LIST_MODE.ALPHA:
@@ -228,9 +228,11 @@ func randomize_buttons():
 		configure_button(grid.get_child(idx), item)
 		idx += 1
 
+var tree_item_count = 0
 
 func build_tree(tree: Tree, tree_item: TreeItem, cname: String):
 	var item = tree.create_item(tree_item)
+	tree_item_count += 1
 	tree_map[cname.to_lower()] = item # Used for search
 	item.set_text(0, cname)
 	item.set_icon(0, Data.icons[cname])
@@ -435,3 +437,7 @@ func bad_data():
 	var bd: AcceptDialog = $c/BadData
 	bd.dialog_text = bd.dialog_text.replace("FILE", Data.settings.data_file)
 	bd.popup_centered()
+
+
+func _on_Test_pressed():
+	setup_class_view()

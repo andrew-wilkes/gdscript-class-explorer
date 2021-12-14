@@ -10,7 +10,6 @@ var class_tree = {}
 var class_list_key_map = {}
 var selected_class = ""
 var icons = {}
-var object_class_name = ""
 var data_ok = false
 var version
 
@@ -68,10 +67,6 @@ func configure():
 		var cname = class_tree[key][0]
 		if cname.length() > 0:
 			class_tree[cname].append(key)
-		else:
-			# Detect "Object" class name in the case of translated docs
-			if class_tree[key].size() > 1:
-				object_class_name = key
 
 
 func get_user_class(cname):
@@ -139,6 +134,7 @@ func load_settings(file_name = SETTINGS_FILE_NAME):
 		var data = ResourceLoader.load(file_name)
 		if data is Settings: # Check that the data is valid
 			settings = data
+	print(settings.data_file)
 
 
 func save_settings(_settings, file_name = SETTINGS_FILE_NAME):
