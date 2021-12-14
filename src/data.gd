@@ -12,6 +12,7 @@ var selected_class = ""
 var icons = {}
 var object_class_name = ""
 var data_ok = false
+var version
 
 func _ready():
 	load_settings()
@@ -20,8 +21,10 @@ func _ready():
 
 # Add class info to dictionary
 func load_classes() -> bool:
+	version = "0"
 	var loaded = false
 	var data: PoolStringArray = get_file_content(settings.data_file).split("\n")
+	classes.clear()
 	var i = 0
 	if data.size() > 2:
 		while i < data.size():
@@ -34,7 +37,7 @@ func load_classes() -> bool:
 
 func configure():
 	regex = RegEx.new()
-	regex.compile('inherits="(\\w+)"')
+	regex.compile('(inherits|version)="([^"]+)"')
 	var keys = classes.keys()
 	keys.sort()
 	var idx = 0
@@ -78,9 +81,13 @@ func get_user_class(cname):
 func get_inherited_class(xml: PoolByteArray):
 	var cname = ""
 	var s = xml.get_string_from_ascii()
-	var result = regex.search(s)
-	if result:
-		cname = result.get_string(1)
+	for result in regex.search_all(s):
+		var value = result.get_string(2)
+		if result.get_string(1) == "inherits":
+			cname = value
+		else:
+			if value > version:
+				version = value
 	return cname
 
 

@@ -59,6 +59,7 @@ func _ready():
 
 
 func setup_class_view():
+	$VBox/Menu/Version.text = Data.version
 	# Add buttons and build icon list
 	for cname in Data.classes.keys():
 		var button = list_button.instance()
@@ -416,6 +417,7 @@ func _on_FileMenu_id_pressed(id):
 func _on_SelectDataFile_selected_data_file(file):
 	Data.settings.data_file = file
 	if Data.load_classes():
+		Data.settings_changed = true
 		clear_scene()
 		yield(get_tree(), "idle_frame")
 		setup_class_view()
