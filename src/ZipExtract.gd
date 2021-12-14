@@ -37,7 +37,8 @@ func extract(button: Button):
 	var version = file.get_basename()
 	var cmd
 	var args
-	var files = [file, "godot-" + version + "/doc/classes/*", "godot-" + version + "/editor/icons/*"]
+	var class_folder = "godot-" + version + "/doc/classes/"
+	var files = [file, class_folder + "*", "godot-" + version + "/editor/icons/*"]
 # TAR.exe was added to Windows 10 (1903) from build 17063 or later.
 	if OS.get_name() == "Windows":
 		cmd = "tar"
@@ -46,10 +47,33 @@ func extract(button: Button):
 		cmd = "unzip" # Linux and Mac support unzip
 		args = ["-u"]
 	args.append_array(files)
-	if OS.execute(cmd, args) != OK:
+	unzipped = OS.execute(cmd, args)
+	if unzipped != OK:
 		alert("There was an error running " + cmd + " on your computer.")
 		return
-	print(button.text)
+	create_class_data_file(class_folder, version + ".dat")
+
+
+func create_class_data_file(source_folder: String, dest_folder: String):
+	var files = Data.get_file_list(source_folder)
+	var data = PoolStringArray([])
+	for file_name in files:
+		var xml = get_file_bytes(source_folder + file_name)
+		data.append(String(xml.size())) # Buffer size
+		data.append(file_name.get_basename()) # Class name
+		data.append(xml.compress(File.COMPRESSION_DEFLATE).hex_encode())
+	if Data.save_string(data.join("\n"), dest_folder) == OK:
+		alert("Created class data file: " + dest_folder)
+	else:
+		alert("Failed to save file: " + dest_folder)
+
+
+func get_file_bytes(path) -> PoolByteArray:
+	var file = File.new()
+	file.open(path, File.READ)
+	var content = file.get_buffer(file.get_len())
+	file.close()
+	return content
 
 
 func alert(msg):

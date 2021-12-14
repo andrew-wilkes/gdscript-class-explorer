@@ -139,6 +139,14 @@ func save_settings(_settings, file_name = SETTINGS_FILE_NAME):
 	settings_changed = false
 
 
+func save_string(content, file_name):
+	var file = File.new()
+	var error = file.open(file_name, File.WRITE)
+	file.store_string(content)
+	file.close()
+	return error
+
+
 func get_file_list(path):
 	var files = []
 	var dir = Directory.new()
