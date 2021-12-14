@@ -69,17 +69,25 @@ icon = ExtResource( 6 )
 
 [node name="sp" type="Control" parent="VBox/Menu"]
 margin_left = 160.0
-margin_right = 826.0
+margin_right = 491.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 
 [node name="Version" type="Label" parent="VBox/Menu"]
-margin_left = 830.0
+margin_left = 495.0
 margin_top = 5.0
-margin_right = 878.0
+margin_right = 543.0
 margin_bottom = 19.0
+hint_tooltip = "Applicable version of Godot"
+mouse_filter = 0
 custom_colors/font_color = Color( 1, 0.501961, 0, 1 )
 text = "Version"
+
+[node name="sp2" type="Control" parent="VBox/Menu"]
+margin_left = 547.0
+margin_right = 878.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
 
 [node name="File" type="MenuButton" parent="VBox/Menu"]
 margin_left = 882.0
