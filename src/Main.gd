@@ -229,6 +229,9 @@ func build_tree(tree: Tree, tree_item: TreeItem, cname: String):
 	item.set_text(0, cname)
 	item.set_icon(0, Data.icons[cname])
 	item.set_text(1, get_brief_description(cname).trim_prefix("</")) # Trim garbage from empty text
+	var tool_tip_text = "Double click to see details"
+	item.set_tooltip(0, tool_tip_text)
+	item.set_tooltip(1, tool_tip_text)
 	# List child nodes that have children first
 	var a_nodes = []
 	var b_nodes = []
