@@ -15,7 +15,7 @@ func set_content(txt: String):
 
 func add_links(txt: String):
 	var regex = RegEx.new()
-	regex.compile("\\[([A-Z][\\w\\d]+|bool|int|float|(\\w+ (\\w+[\\w\\d_]*\\w*)\\d*))\\]")
+	regex.compile("\\[([A-Z][\\w\\d]+|bool|int|float|(\\w+ ([\\w\\d]+)))\\]")
 	for result in regex.search_all(txt):
 		var url = result.get_string(1)
 		var link_text = url

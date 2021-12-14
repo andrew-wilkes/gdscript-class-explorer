@@ -14,22 +14,26 @@ var history = []
 var stepping_back = false
 var back_button
 var tab_list = [
+	"constructors",
 	"methods",
 	"properties",
 	"signals",
 	"constants",
 	"tutorials",
 	"theme_items",
+	"operators",
 ]
 var current_tab_list = []
 var tabs
 var anchors = {} 
 var anchor_map = {
-	"method": "methods",
-	"member": "properties",
-	"signal": "signals",
-	"constant": "constants",
-	"enum": "constants",
+	"constructors": "constructors",
+	"methods": "methods",
+	"members": "properties",
+	"signals": "signals",
+	"constants": "constants",
+	"enums": "constants",
+	"operators": "operators",
 }
 var weight
 var current_class: ClassItem
@@ -125,9 +129,11 @@ func update_content(cname, new = true):
 			add_items_to_tab(key, tab, info[key])
 
 
-func add_anchor(tab, tab_name, item_name, line_number):
+func add_anchor(tab, tab_name, item_name, line_number, idx = -1):
 	if not anchors.has(tab_name):
 		anchors[tab_name] = {}
+	if idx >= 0:
+		item_name = item_name + "-" + str(idx)
 	anchors[tab_name][item_name] = {
 		"tab": tab,
 		"line": line_number
@@ -138,11 +144,11 @@ func add_items_to_tab(prop, tab: RichContent, items):
 	var content = PoolStringArray([])
 	var line_number = 0
 	match prop:
-		"methods":
+		"methods", "constructors", "operators":
 			content.append("[table=2]")
 			var description_groups = []
 			for key in items.keys():
-				var mstrs = get_method_strings(key, items[key])
+				var mstrs = get_method_strings(prop, key, items[key])
 				content.append(mstrs[0])
 				description_groups.append([key, mstrs[1]])
 			content.append("[/table]\n")
@@ -150,11 +156,11 @@ func add_items_to_tab(prop, tab: RichContent, items):
 			line_number += 4
 			for description_group in description_groups:
 				# Add base method anchor point
-				add_anchor(tab, prop, "%s" % [description_group[0]], line_number)
+				add_anchor(tab, prop, description_group[0], line_number)
 				# Add descriptions and idexed anchor points
 				var idx = 0
 				for d in description_group[1]:
-					add_anchor(tab, prop, "%s%d" % [description_group[0], idx], line_number)
+					add_anchor(tab, prop, description_group[0], line_number, idx)
 					content.append(d)
 					line_number += d.split("\n").size()
 					idx += 1
@@ -239,7 +245,7 @@ func get_signal_string(sname, attribs):
 
 func get_property_strings(pname, attribs: Dictionary):
 	var type = get_return_type_string(attribs.type)
-	var ps = "[cell][right]%s[/right]\t[/cell][cell][member %s] %s[/cell]" % [type, pname, get_default_property_value(attribs)]
+	var ps = "[cell][right]%s[/right]\t[/cell][cell]%s %s[/cell]" % [type, bbcode_url(pname, "members"), get_default_property_value(attribs)]
 	var pds = "\u2022 %s %s %s\n" % [type, pname, get_default_property_value(attribs)]
 	if attribs.get("setter").length() > 0:
 		pds += "\t%s setter\n" % [attribs.setter]
@@ -250,13 +256,13 @@ func get_property_strings(pname, attribs: Dictionary):
 	return [ps, pds]
 
 
-func get_method_strings(mname, attribs):
+func get_method_strings(tab, mname, attribs):
 	var ms = PoolStringArray([])
 	var mds = PoolStringArray([])
 	var idx = 0
 	for attrib in attribs:
 		var ret_type = get_return_type_string(attrib.return_type)
-		ms.append("[cell][right]%s[/right]\t[/cell][cell][method %s%d](%s) %s[/cell]" % [ret_type, mname, idx, get_args(attrib.args), attrib.qualifiers])
+		ms.append("[cell][right]%s[/right]\t[/cell][cell]%s(%s) %s[/cell]" % [ret_type, bbcode_url(mname, tab, idx), get_args(attrib.args), attrib.qualifiers])
 		mds.append("\u2022 %s %s(%s) %s\n\n\t%s\n" % [ret_type, mname, get_args(attrib.args), attrib.qualifiers, attrib.description])
 		idx += 1
 	return [ms.join("\n"), mds]
@@ -270,7 +276,18 @@ func get_default_property_value(item: Dictionary):
 func get_return_type_string(type: String):
 	if type.length() == 0:
 		type = "void"
-	return "[" + type + "]" if type != "void" else type
+	return bbcode_url(type) if type != "void" else type
+
+
+# Add index to name if it has a target such as method
+func bbcode_url(mname, target = "", idx = -1):
+	if target.length() > 0:
+		target = target + " " + mname
+	else:
+		target = mname
+	if idx >= 0:
+		target = target + "-" + str(idx)
+	return '[url=%s]%s[/url]' % [target, mname]
 
 
 func get_args(args: Array):
@@ -329,11 +346,11 @@ func get_info(cname) -> Dictionary:
 							info[group_name].append(link)
 							text_target = link
 							text_node_name = "url"
-						"methods":
+						"methods", "constructors", "operators":
 							info[node_name] = {} # Methods may have the same name
 							group_name = node_name
 							text_node_name = "description"
-						"method":
+						"method", "constructor", "operator":
 							var method_name = parser.get_named_attribute_value("name")
 							var method = {
 								"qualifiers": parser.get_named_attribute_value_safe("qualifiers"),
@@ -442,7 +459,7 @@ func remove_square_braces(txt):
 
 
 func _on_meta_clicked(meta):
-	var url = String(meta).split(" ")
+	var url = String(meta).split(" ", false, 1)
 	if url[0].begins_with("http"):
 		var _e = OS.shell_open(str(meta))
 	elif url.size() == 2:

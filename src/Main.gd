@@ -25,6 +25,7 @@ var select_icon = preload("res://assets/icons/icon_loop.svg")
 var icon_files = {}
 var tree_map = {}
 var sort_reversed = false
+var default_icon
 
 func _ready():
 	var fm = $VBox/Menu/File.get_popup()
@@ -67,6 +68,7 @@ func setup_class_view():
 	get_icon_files()
 	map_icons(Data.object_class_name)
 	map_other_icons()
+	default_icon = icon_files.get("arrowright")
 	
 	# Create Tree
 	var root = the_tree.create_item()
@@ -113,7 +115,7 @@ func map_icons(cname):
 		Data.icons[cname] = icon_files[cname.to_lower()]
 	else:
 		# Use same icon as parent
-		Data.icons[cname] = Data.icons[Data.class_tree[cname][0]]
+		Data.icons[cname] = Data.icons.get(Data.class_tree[cname][0], default_icon)
 	var idx = 0
 	for child in Data.class_tree[cname]:
 		if idx > 0:
@@ -177,6 +179,9 @@ func update_weighted_labels():
 	var weighted_items = []
 	var unweighted_items = []
 	for class_item in Data.settings.class_list:
+		# Skip saved class info for classes not in this version of Godot
+		if not class_item.keyword in Data.classes.keys():
+			continue
 		var weight = class_item.weight
 		if weight > 0:
 			weights.append(weight)
