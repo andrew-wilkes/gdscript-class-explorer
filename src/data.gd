@@ -116,7 +116,7 @@ func get_xml(buffer_size, encoded_string: String) -> PoolByteArray:
 		var hex = "0x" + encoded_string.substr(i, 2)
 		bytes.append(hex.hex_to_int())
 		i += 2
-	return bytes.decompress(buffer_size, File.COMPRESSION_DEFLATE) #.get_string_from_ascii()
+	return bytes.decompress(buffer_size, File.COMPRESSION_DEFLATE)
 
 
 func get_file_content(path) -> String:
@@ -134,7 +134,6 @@ func load_settings(file_name = SETTINGS_FILE_NAME):
 		var data = ResourceLoader.load(file_name)
 		if data is Settings: # Check that the data is valid
 			settings = data
-	print(settings.data_file)
 
 
 func save_settings(_settings, file_name = SETTINGS_FILE_NAME):

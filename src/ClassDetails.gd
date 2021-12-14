@@ -140,7 +140,7 @@ func add_anchor(tab, tab_name, item_name, line_number, idx = -1):
 	}
 
 
-func add_items_to_tab(prop, tab: RichContent, items):
+func add_items_to_tab(prop: String, tab: RichContent, items):
 	var content = PoolStringArray([])
 	var line_number = 0
 	match prop:
@@ -152,12 +152,12 @@ func add_items_to_tab(prop, tab: RichContent, items):
 				content.append(mstrs[0])
 				description_groups.append([key, mstrs[1]])
 			content.append("[/table]\n")
-			content.append("[b]Method Descriptions[/b]\n")
+			content.append("[b]%s Descriptions[/b]\n" % [prop.capitalize().trim_suffix("s")])
 			line_number += 4
 			for description_group in description_groups:
 				# Add base method anchor point
 				add_anchor(tab, prop, description_group[0], line_number)
-				# Add descriptions and idexed anchor points
+				# Add descriptions and indexed anchor points
 				var idx = 0
 				for d in description_group[1]:
 					add_anchor(tab, prop, description_group[0], line_number, idx)
@@ -347,7 +347,7 @@ func get_info(cname) -> Dictionary:
 							text_target = link
 							text_node_name = "url"
 						"methods", "constructors", "operators":
-							info[node_name] = {} # Methods may have the same name
+							info[node_name] = {} # These items may have variants with the same name but various input parameters like method overrides
 							group_name = node_name
 							text_node_name = "description"
 						"method", "constructor", "operator":
@@ -463,13 +463,14 @@ func _on_meta_clicked(meta):
 	if url[0].begins_with("http"):
 		var _e = OS.shell_open(str(meta))
 	elif url.size() == 2:
-		# goto tab and specific item
+		# Go to a tab and specific item
 		var tab_name = anchor_map[ url[0] ] # url[0] == "method" for example
 		var target = anchors[tab_name][ url[1] ] # url[1] == name of the method for example
 		tabs.set_current_tab(current_tab_list.find(tab_name))
 		$SC.scroll_vertical = 0
 		target.tab.scroll_to_line(target.line)
 	else:
+		# Go to a new class details scene
 		update_content(meta)
 		$SC.scroll_vertical = 0
 
