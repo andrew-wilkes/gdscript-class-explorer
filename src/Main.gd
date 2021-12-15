@@ -31,7 +31,7 @@ func _ready():
 	var fm = $VBox/Menu/File.get_popup()
 	fm.add_icon_item(download_icon, "Download Source Code", DOWNLOAD)
 	fm.add_icon_item(extract_icon, "Extract Data", EXTRACT)
-	fm.add_icon_item(select_icon, "Select Version", SELECT)
+	fm.add_icon_item(select_icon, "Select Data File", SELECT)
 	fm.connect("id_pressed", self, "_on_FileMenu_id_pressed")
 	var hm = $VBox/Menu/Help.get_popup()
 	hm.add_icon_item(link_icon, "Online Documentation", DOCS)
@@ -59,6 +59,7 @@ func _ready():
 
 
 func setup_class_view():
+	logger.add("setup_class_view called")
 	$VBox/Menu/Version.text = Data.version
 	# Add buttons and build icon list
 	for cname in Data.classes.keys():
@@ -72,8 +73,12 @@ func setup_class_view():
 	default_icon = icon_files.get("arrowright")
 	
 	# Create Tree
+	logger.add("Create Tree starting with Object")
+	tree_map.clear()
 	var root = the_tree.create_item()
+	# Build the Object branch first since this contains the more interesting nodes to show at the top
 	build_tree(the_tree, root, "Object")
+	# Now start from classes that have no parent and no children
 	for key in Data.class_tree.keys():
 		if Data.class_tree[key].size() == 1 and Data.class_tree[key][0].length() == 0:
 			build_tree(the_tree, root, key)
@@ -231,6 +236,7 @@ func randomize_buttons():
 var tree_item_count = 0
 
 func build_tree(tree: Tree, tree_item: TreeItem, cname: String):
+	logger.add(cname)
 	var item = tree.create_item(tree_item)
 	tree_item_count += 1
 	tree_map[cname.to_lower()] = item # Used for search
@@ -440,4 +446,4 @@ func bad_data():
 
 
 func _on_Test_pressed():
-	setup_class_view()
+	logger.save_log()

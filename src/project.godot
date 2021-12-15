@@ -39,6 +39,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Data="*res://data.gd"
+logger="*res://logger.gd"
 
 [physics]
 
