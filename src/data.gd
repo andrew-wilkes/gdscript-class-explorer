@@ -23,8 +23,8 @@ func load_classes() -> bool:
 	version = "0"
 	var loaded = false
 	class_tree.clear()
-	var data: PoolStringArray = get_file_content(settings.data_file).split("\n")
 	classes.clear()
+	var data: PoolStringArray = get_file_content(settings.data_file).split("\n")
 	var i = 0
 	if data.size() > 2:
 		while i < data.size():

@@ -6,7 +6,7 @@ enum LIST_MODE { ALPHA, TREE, GROUP, RAND }
 enum SORT_ORDER { AZ, ZA }
 
 const ICONS_PATH = "res://assets/icons/"
-const node_groups = ["Spatial", "Control", "Node2D", "Others"]
+const GROUP_NODES = ["Node2D", "Node3D", "Spatial", "Control", "Viewport", "Others"]
 
 export(Color) var class_text_highlight_color = Color.green
 export(Color) var class_text_normal_color = Color.white
@@ -26,6 +26,7 @@ var icon_files = {}
 var tree_map = {}
 var sort_reversed = false
 var default_icon
+var group_nodes = []
 
 func _ready():
 	show_version("")
@@ -65,6 +66,11 @@ func show_version(txt):
 
 func setup_class_view():
 	show_version(Data.version)
+	# Form base node list for the current version of classes
+	group_nodes.clear()
+	for node in GROUP_NODES:
+		if node in Data.classes.keys():
+			group_nodes.append(node)
 	# Add buttons and build icon list
 	for cname in Data.classes.keys():
 		var button = list_button.instance()
@@ -217,11 +223,11 @@ func update_weighted_labels():
 
 func update_labels_by_group():
 	var idx = 0
-	for i in node_groups.size():
-		var base_node = node_groups[posmod(Data.settings.group_mode + i, node_groups.size())]
+	for i in group_nodes.size():
+		var group_node = group_nodes[posmod(Data.settings.group_mode + i, group_nodes.size())]
 		var others = false
-		if base_node != "Others":
-			idx = configure_button_tree(base_node, idx, others)
+		if group_node != "Others":
+			idx = configure_button_tree(group_node, idx, others)
 		else:
 			others = true
 			for key in Data.class_tree.keys():
@@ -268,7 +274,7 @@ func build_tree(tree: Tree, tree_item: TreeItem, cname: String):
 
 func configure_button_tree(cname: String, idx: int, others: bool):
 	# Skip child nodes of Node if already processed
-	if others and cname in node_groups:
+	if others and cname in group_nodes:
 		return idx
 	configure_button(grid.get_child(idx), Data.get_user_class(cname))
 	idx += 1
@@ -380,7 +386,7 @@ func _on_Items_pressed():
 
 func _on_Groups_pressed():
 	if Data.settings.list_mode == LIST_MODE.GROUP:
-		Data.settings.group_mode = posmod(Data.settings.group_mode + 1, node_groups.size())
+		Data.settings.group_mode = posmod(Data.settings.group_mode + 1, group_nodes.size())
 	else:
 		Data.settings.list_mode = LIST_MODE.GROUP
 		set_visibility(false, false, true)
