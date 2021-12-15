@@ -12,3 +12,4 @@ data_*/
 *.zip
 *.dat
 src/godot-*
+src/log*
