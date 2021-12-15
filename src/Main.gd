@@ -158,6 +158,7 @@ func arrange_controls():
 func clear_search_box():
 	$VBox/SS.grab_focus()
 	$VBox/SS.text = ""
+	$VBox/BC.scroll_vertical = 0
 
 
 func _on_Button_gui_input(event, button):
@@ -236,11 +237,11 @@ func update_labels_by_group():
 
 
 func randomize_buttons():
-	var items = Data.settings.class_list.duplicate()
+	var items = Data.classes.keys().duplicate()
 	items.shuffle() # Cannot store seed for shuffle
 	var idx = 0
 	for item in items:
-		configure_button(grid.get_child(idx), item)
+		configure_button(grid.get_child(idx), Data.get_user_class(item))
 		idx += 1
 
 var tree_item_count = 0
