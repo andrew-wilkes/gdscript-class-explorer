@@ -24,8 +24,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.35"
-     inkscape:cx="20"
-     inkscape:cy="-165.71429"
+     inkscape:cx="-640"
+     inkscape:cy="-317.14286"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -64,9 +64,9 @@
        x="-1000"
        y="-1120"
        ry="40"
-       inkscape:export-filename="/home/andrew/dev/godot/git/andrew-wilkes/gdscript-class-explorer/src/assets/macos-icon/icon.png"
-       inkscape:export-xdpi="189.04616"
-       inkscape:export-ydpi="189.04616" />
+       inkscape:export-filename="/home/andrew/dev/godot/git/andrew-wilkes/gdscript-class-explorer/src/icon.png"
+       inkscape:export-xdpi="11.815385"
+       inkscape:export-ydpi="11.815385" />
     <rect
        style="fill:#fc9c9c;fill-opacity:1;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.54614"
        id="rect867"
@@ -75,9 +75,9 @@
        x="-960"
        y="-1080"
        ry="40"
-       inkscape:export-filename="/home/andrew/dev/godot/git/andrew-wilkes/gdscript-class-explorer/src/assets/macos-icon/icon.png"
-       inkscape:export-xdpi="189.04616"
-       inkscape:export-ydpi="189.04616" />
+       inkscape:export-filename="/home/andrew/dev/godot/git/andrew-wilkes/gdscript-class-explorer/src/icon.png"
+       inkscape:export-xdpi="11.815385"
+       inkscape:export-ydpi="11.815385" />
     <rect
        style="fill:#a5efac;fill-opacity:1;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.54614"
        id="rect867-3"
@@ -86,9 +86,9 @@
        x="-720"
        y="-1080"
        ry="40"
-       inkscape:export-filename="/home/andrew/dev/godot/git/andrew-wilkes/gdscript-class-explorer/src/assets/macos-icon/icon.png"
-       inkscape:export-xdpi="189.04616"
-       inkscape:export-ydpi="189.04616" />
+       inkscape:export-filename="/home/andrew/dev/godot/git/andrew-wilkes/gdscript-class-explorer/src/icon.png"
+       inkscape:export-xdpi="11.815385"
+       inkscape:export-ydpi="11.815385" />
     <rect
        style="fill:#a5b7f3;fill-opacity:1;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.54614"
        id="rect867-6"
@@ -97,9 +97,9 @@
        x="-960"
        y="-840"
        ry="40"
-       inkscape:export-filename="/home/andrew/dev/godot/git/andrew-wilkes/gdscript-class-explorer/src/assets/macos-icon/icon.png"
-       inkscape:export-xdpi="189.04616"
-       inkscape:export-ydpi="189.04616" />
+       inkscape:export-filename="/home/andrew/dev/godot/git/andrew-wilkes/gdscript-class-explorer/src/icon.png"
+       inkscape:export-xdpi="11.815385"
+       inkscape:export-ydpi="11.815385" />
     <rect
        style="fill:#e0e0e0;fill-opacity:1;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.54614"
        id="rect867-7"
@@ -108,63 +108,19 @@
        x="-720"
        y="-840"
        ry="40"
-       inkscape:export-filename="/home/andrew/dev/godot/git/andrew-wilkes/gdscript-class-explorer/src/assets/macos-icon/icon.png"
-       inkscape:export-xdpi="189.04616"
-       inkscape:export-ydpi="189.04616" />
-    <rect
-       style="fill:#000000;fill-opacity:1;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.54614"
-       id="rect1181-5"
-       width="520"
-       height="520"
-       x="-1000"
-       y="-480"
-       ry="0"
        inkscape:export-filename="/home/andrew/dev/godot/git/andrew-wilkes/gdscript-class-explorer/src/icon.png"
        inkscape:export-xdpi="11.815385"
        inkscape:export-ydpi="11.815385" />
-    <rect
-       style="fill:#fc9c9c;fill-opacity:1;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.54614"
-       id="rect867-35"
-       width="200"
-       height="200"
-       x="-960"
-       y="-440"
-       ry="0"
-       inkscape:export-filename="/home/andrew/dev/godot/git/andrew-wilkes/gdscript-class-explorer/src/icon.png"
-       inkscape:export-xdpi="11.815385"
-       inkscape:export-ydpi="11.815385" />
-    <rect
-       style="fill:#a5efac;fill-opacity:1;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.54614"
-       id="rect867-3-6"
-       width="200"
-       height="200"
-       x="-720"
-       y="-440"
-       ry="0"
-       inkscape:export-filename="/home/andrew/dev/godot/git/andrew-wilkes/gdscript-class-explorer/src/icon.png"
-       inkscape:export-xdpi="11.815385"
-       inkscape:export-ydpi="11.815385" />
-    <rect
-       style="fill:#a5b7f3;fill-opacity:1;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.54614"
-       id="rect867-6-2"
-       width="200"
-       height="200"
-       x="-960"
-       y="-200"
-       ry="0"
-       inkscape:export-filename="/home/andrew/dev/godot/git/andrew-wilkes/gdscript-class-explorer/src/icon.png"
-       inkscape:export-xdpi="11.815385"
-       inkscape:export-ydpi="11.815385" />
-    <rect
-       style="fill:#e0e0e0;fill-opacity:1;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.54614"
-       id="rect867-7-9"
-       width="200"
-       height="200"
-       x="-720"
-       y="-200"
-       ry="0"
-       inkscape:export-filename="/home/andrew/dev/godot/git/andrew-wilkes/gdscript-class-explorer/src/icon.png"
-       inkscape:export-xdpi="11.815385"
-       inkscape:export-ydpi="11.815385" />
+    <text
+       xml:space="preserve"
+       style="font-size:189.197px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;stroke-width:2.53389"
+       x="-1612.2981"
+       y="-793.01941"
+       id="text6933"><tspan
+         sodipodi:role="line"
+         id="tspan6931"
+         x="-1612.2981"
+         y="-793.01941"
+         style="stroke-width:2.53389">LOGO</tspan></text>
   </g>
 </svg>

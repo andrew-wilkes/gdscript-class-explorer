@@ -35,6 +35,7 @@ _global_script_class_icons={
 config/name="Class Explorer"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
+config/macos_native_icon="res://assets/macos-icon/icon.icns"
 config/windows_native_icon="res://assets/windows-icon/icon.ico"
 
 [autoload]
