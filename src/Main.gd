@@ -28,6 +28,7 @@ var sort_reversed = false
 var default_icon
 
 func _ready():
+	show_version("")
 	var fm = $VBox/Menu/File.get_popup()
 	fm.add_icon_item(download_icon, "Download Source Code", DOWNLOAD)
 	fm.add_icon_item(extract_icon, "Extract Data", EXTRACT)
@@ -58,9 +59,12 @@ func _ready():
 		$c/Welcome.popup_centered()
 
 
+func show_version(txt):
+	$VBox/Menu/Version.text = txt
+
+
 func setup_class_view():
-	logger.add("setup_class_view called")
-	$VBox/Menu/Version.text = Data.version
+	show_version(Data.version)
 	# Add buttons and build icon list
 	for cname in Data.classes.keys():
 		var button = list_button.instance()
@@ -447,3 +451,7 @@ func bad_data():
 
 func _on_Test_pressed():
 	logger.save_log()
+
+
+func _on_ZipExtract_new_data_file(file_name):
+	_on_SelectDataFile_selected_data_file(file_name)

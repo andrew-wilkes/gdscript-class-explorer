@@ -26,12 +26,17 @@ func _on_LineEdit_text_changed(new_text: String):
 
 func url_selected(url: String):
 	var file = File.new()
-	var target_filename = url.get_file().get_basename() + ".zip"
+	# The url may or may not end in .zip
+	var target_filename = url.get_file().replace(".zip", "") + ".zip"
 	if file.file_exists(target_filename):
 		alert("Refused: the file already exists.")
 		return
 	alert("Downloading ...")
-	if OS.execute("curl", [url, "-L", "-o", target_filename]) != OK:
+	$VBox/HBox/OK.disabled = true
+	yield(get_tree().create_timer(0.5), "timeout") # Allows the alert to be seen before the blocking process runs
+	var result = OS.execute("curl", [url, "-L", "-o", target_filename])
+	$VBox/HBox/OK.disabled = false
+	if result != OK:
 		alert("There was an error running curl on your computer.")
 		return
 	if file.file_exists(target_filename):

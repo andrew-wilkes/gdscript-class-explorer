@@ -253,8 +253,8 @@ size_flags_horizontal = 3
 [node name="FileDownload" type="WindowDialog" parent="c"]
 margin_left = 28.0
 margin_top = 108.0
-margin_right = 559.0
-margin_bottom = 203.0
+margin_right = 705.0
+margin_bottom = 263.0
 window_title = "Download Godot Source Code"
 script = ExtResource( 7 )
 __meta__ = {
@@ -359,12 +359,12 @@ text = "master.zip"
 align = 0
 
 [node name="Alert" type="AcceptDialog" parent="c/ZipExtract"]
-visible = true
 margin_left = 563.0
 margin_top = 8.0
 margin_right = 955.0
 margin_bottom = 82.0
 window_title = "Download Status"
+resizable = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -421,7 +421,7 @@ __meta__ = {
 margin_right = 83.0
 margin_bottom = 58.0
 window_title = "Bad Data File"
-dialog_text = "I was unable to extract data from the selected file: FILE"
+dialog_text = "Unable to extract data from the selected file: FILE"
 
 [connection signal="resized" from="." to="." method="_on_Main_resized"]
 [connection signal="pressed" from="VBox/Menu/Items" to="." method="_on_Items_pressed"]
@@ -439,6 +439,7 @@ dialog_text = "I was unable to extract data from the selected file: FILE"
 [connection signal="pressed" from="c/FileDownload/VBox/HBox/OK" to="c/FileDownload" method="_on_OK_pressed"]
 [connection signal="popup_hide" from="c/FileDownload/Alert" to="c/FileDownload" method="_on_Alert_popup_hide"]
 [connection signal="about_to_show" from="c/ZipExtract" to="c/ZipExtract" method="_on_ZipExtract_about_to_show"]
+[connection signal="new_data_file" from="c/ZipExtract" to="." method="_on_ZipExtract_new_data_file"]
 [connection signal="popup_hide" from="c/ZipExtract/Alert" to="c/ZipExtract" method="_on_Alert_popup_hide"]
 [connection signal="about_to_show" from="c/SelectDataFile" to="c/SelectDataFile" method="_on_SelectDataFile_about_to_show"]
 [connection signal="selected_data_file" from="c/SelectDataFile" to="." method="_on_SelectDataFile_selected_data_file"]
