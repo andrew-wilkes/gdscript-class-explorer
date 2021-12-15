@@ -33,7 +33,8 @@ func url_selected(url: String):
 		return
 	alert("Downloading ...")
 	$VBox/HBox/OK.disabled = true
-	yield(get_tree().create_timer(0.5), "timeout") # Allows the alert to be seen before the blocking process runs
+	# Allow the alert to be seen before the blocking process runs
+	yield(get_tree().create_timer(0.5), "timeout")
 	var result = OS.execute("curl", [url, "-L", "-o", target_filename])
 	$VBox/HBox/OK.disabled = false
 	if result != OK:

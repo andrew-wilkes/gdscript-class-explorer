@@ -35,17 +35,30 @@ func fit_content():
 	rect_size = $VBox.rect_size + Vector2(15, 15)
 
 
+func add_files(files, paths, version, ext):
+	for path in paths:
+		files.append("godot-" + version + path + ext)
+		# The escaped * is needed to stop bash extending the path to include .import files
+
+
 func extract(button: Button):
 	var file = button.text
 	var version = file.get_basename()
-	var cmd
-	var args
 	var class_folders = ["/doc/classes/", "/modules/gdscript/doc_classes/"]
 	var icon_folders = ["/editor/icons/", "/modules/gdscript/icons/"]
 	var files = [file]
-	add_files(files, class_folders, version)
-	add_files(files, icon_folders, version)
+	add_files(files, class_folders, version, "*.xml")
+	# Godot creates .import files that are not in the archive
+	# This causes `Filename not matched` errors if they are matched with a * wild card
+	add_files(files, icon_folders, version, "*.svg")
+	unzip(files)
+	create_class_data_file(class_folders, version)
+
+
+func unzip(files):
 # TAR.exe was added to Windows 10 (1903) from build 17063 or later.
+	var cmd
+	var args
 	if OS.get_name() == "Windows":
 		cmd = "tar"
 		args = ["-xf"]
@@ -62,13 +75,6 @@ func extract(button: Button):
 		return
 	logger.add(output[0])
 	logger.save_log()
-	create_class_data_file(class_folders, version)
-
-
-func add_files(files, paths, version):
-	for path in paths:
-		files.append("godot-" + version + path + "\\*")
-		# The escaped * is needed to stop bash extending the path to include .import files
 
 
 func create_class_data_file(source_folders: Array, version: String):
