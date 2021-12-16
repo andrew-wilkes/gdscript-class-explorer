@@ -44,15 +44,13 @@ func add_files(files, paths, version, ext):
 func extract(button: Button):
 	var file = button.text
 	var version = file.get_basename()
-	var class_folders = ["/doc/classes/", "/modules/gdscript/doc_classes/"]
-	var icon_folders = ["/editor/icons/", "/modules/gdscript/icons/"]
 	var files = [file]
-	add_files(files, class_folders, version, "*.xml")
+	add_files(files, Data.CLASS_FOLDERS, version, "*.xml")
 	# Godot creates .import files that are not in the archive
 	# This causes `Filename not matched` errors if they are matched with a * wild card
-	add_files(files, icon_folders, version, "*.svg")
+	add_files(files, Data.ICON_FOLDERS, version, "*.svg")
 	unzip(files)
-	create_class_data_file(class_folders, version)
+	create_class_data_file(Data.CLASS_FOLDERS, version)
 
 
 func unzip(files):

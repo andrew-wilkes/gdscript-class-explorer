@@ -5,8 +5,8 @@ enum { ABOUT, DOCS, QA, LICENCES, GODOT, DOWNLOAD, EXTRACT, SELECT }
 enum LIST_MODE { ALPHA, TREE, GROUP, RAND }
 enum SORT_ORDER { AZ, ZA }
 
-const ICONS_PATH = "res://assets/icons/"
 const GROUP_NODES = ["Node2D", "Node3D", "Spatial", "Control", "Viewport", "Others"]
+const DEFAULT_ICON_KEY = "arrowright"
 
 export(Color) var class_text_highlight_color = Color.green
 export(Color) var class_text_normal_color = Color.white
@@ -80,7 +80,7 @@ func setup_class_view():
 	get_icon_files()
 	map_icons("Object")
 	map_other_icons()
-	default_icon = icon_files.get("arrowright")
+	default_icon = icon_files.get(DEFAULT_ICON_KEY)
 	
 	# Create Tree
 	logger.add("Create Tree starting with Object")
@@ -118,11 +118,15 @@ func set_visibility(show_tree, rand_disabled, reset_disabled):
 
 
 func get_icon_files():
-	var files = Data.get_file_list(ICONS_PATH)
-	for fn in files:
-		var file_name: String = fn
-		if file_name.get_extension() == "svg":
-			icon_files[file_name.get_basename().to_lower().replace("icon", "").replace("_", "")] = load(ICONS_PATH + file_name)
+	for path in Data.get_icon_paths():
+		var files = Data.get_file_list(path)
+		for file_name in files:
+			if file_name.get_extension() == "svg":
+				icon_files[get_icon_key(file_name)] = load(path + file_name)
+
+
+func get_icon_key(file_name):
+	return file_name.get_basename().to_lower().replace("icon", "").replace("_", "")
 
 
 # Traverse the tree
@@ -454,10 +458,6 @@ func bad_data():
 	var bd: AcceptDialog = $c/BadData
 	bd.dialog_text = bd.dialog_text.replace("FILE", Data.settings.data_file)
 	bd.popup_centered()
-
-
-func _on_Test_pressed():
-	logger.save_log()
 
 
 func _on_ZipExtract_new_data_file(file_name):
