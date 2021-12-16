@@ -3,7 +3,6 @@ extends Node
 const SETTINGS_FILE_NAME = "user://settings.res"
 const ICON_FOLDERS = ["/editor/icons/", "/modules/gdscript/icons/"]
 const CLASS_FOLDERS = ["/doc/classes/", "/modules/gdscript/doc_classes/"]
-const RES_ICONS_PATH = "res://assets/icons/"
 
 var classes = {}
 var settings: Settings
@@ -82,7 +81,6 @@ func get_icon_paths():
 	var base_path = "godot-" + settings.data_file.get_basename()
 	for path in ICON_FOLDERS:
 		paths.append(base_path + path)
-	paths.append(RES_ICONS_PATH)
 	return paths
 
 
