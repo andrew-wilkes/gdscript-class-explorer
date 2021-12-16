@@ -118,11 +118,28 @@ func set_visibility(show_tree, rand_disabled, reset_disabled):
 
 
 func get_icon_files():
+	var image = Image.new()
 	for path in Data.get_icon_paths():
 		var files = Data.get_file_list(path)
+		var imports = []
+		for file_name in files:
+			# Detect imported images
+			if file_name.get_extension() == "import":
+				# store name.svg
+				imports.append(file_name.get_basename())
 		for file_name in files:
 			if file_name.get_extension() == "svg":
-				icon_files[get_icon_key(file_name)] = load(path + file_name)
+				var texture
+				if file_name in imports:
+					# Use load for imported images
+					texture = load(path + file_name)
+				else:
+					# External image
+					texture = ImageTexture.new()
+					image.load(path + file_name)
+					texture.create_from_image(image)
+				icon_files[get_icon_key(file_name)] = texture
+
 
 
 func get_icon_key(file_name):
