@@ -83,7 +83,6 @@ func setup_class_view():
 	default_icon = icon_files.get(DEFAULT_ICON_KEY)
 	
 	# Create Tree
-	logger.add("Create Tree starting with Object")
 	tree_map.clear()
 	var root = the_tree.create_item()
 	# Build the Object branch first since this contains the more interesting nodes to show at the top
@@ -118,7 +117,6 @@ func set_visibility(show_tree, rand_disabled, reset_disabled):
 
 
 func get_icon_files():
-	var t1 = OS.get_system_time_msecs()
 	var image = Image.new()
 	for path in Data.get_icon_paths():
 		var files = Data.get_file_list(path)
@@ -141,7 +139,6 @@ func get_icon_files():
 					image.load(path + file_name)
 					texture.create_from_image(image)
 				icon_files[icon_key] = texture
-	print(OS.get_system_time_msecs() - t1)
 
 
 func get_icon_key(file_name):
@@ -270,7 +267,6 @@ func randomize_buttons():
 var tree_item_count = 0
 
 func build_tree(tree: Tree, tree_item: TreeItem, cname: String):
-	logger.add(cname)
 	var item = tree.create_item(tree_item)
 	tree_item_count += 1
 	tree_map[cname.to_lower()] = item # Used for search

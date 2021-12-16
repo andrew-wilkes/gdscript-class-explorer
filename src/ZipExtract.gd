@@ -66,13 +66,13 @@ func unzip(files):
 	args.append_array(files)
 	var output = []
 	unzipped = OS.execute(cmd, args, true, output)
-	logger.clear()
-	logger.add_array(args)
+	Utility.clear_log()
+	Utility.add_array_to_log(args)
 	if not unzipped in [0, 1, 11]: # Acceptable return codes
 		alert("There was an error " + str(unzipped) + " running " + cmd + " on your computer.\n" + output[0])
 		return
-	logger.add(output[0])
-	logger.save_log()
+	Utility.add_to_log(output[0])
+	Utility.save_log()
 
 
 func create_class_data_file(source_folders: Array, version: String):

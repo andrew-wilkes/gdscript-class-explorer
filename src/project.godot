@@ -41,7 +41,7 @@ config/windows_native_icon="res://assets/windows-icon/icon.ico"
 [autoload]
 
 Data="*res://data.gd"
-logger="*res://logger.gd"
+Utility="*res://utility.gd"
 
 [physics]
 
