@@ -31,11 +31,13 @@ func url_selected(url: String):
 	if file.file_exists(target_filename):
 		alert("Refused: the file already exists.")
 		return
-	alert("Downloading ...")
 	$VBox/HBox/OK.disabled = true
+	$Downloading.rect_size = $Alert.rect_size
+	$Downloading.popup_centered()
 	# Allow the alert to be seen before the blocking process runs
 	yield(get_tree().create_timer(0.5), "timeout")
 	var result = OS.execute("curl", [url, "-L", "-o", target_filename])
+	$Downloading.hide()
 	$VBox/HBox/OK.disabled = false
 	if result != OK:
 		alert("There was an error running curl on your computer.")

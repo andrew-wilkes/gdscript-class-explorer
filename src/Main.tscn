@@ -243,6 +243,7 @@ margin_bottom = 20.0
 size_flags_horizontal = 3
 
 [node name="FileDownload" type="WindowDialog" parent="c"]
+visible = true
 margin_left = 28.0
 margin_top = 108.0
 margin_right = 705.0
@@ -307,11 +308,38 @@ margin_right = 634.0
 margin_bottom = 166.0
 text = "You may download more than one version of the source code and select which version to use later."
 
+[node name="Downloading" type="PopupDialog" parent="c/FileDownload"]
+visible = true
+margin_left = 581.0
+margin_top = -32.0
+margin_right = 965.0
+margin_bottom = 44.0
+
+[node name="CenterContainer" type="CenterContainer" parent="c/FileDownload/Downloading"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 8.0
+margin_bottom = -2.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="c/FileDownload/Downloading/CenterContainer"]
+margin_left = 147.0
+margin_top = 30.0
+margin_right = 245.0
+margin_bottom = 44.0
+text = "Downloading ..."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Alert" type="AcceptDialog" parent="c/FileDownload"]
-margin_left = 563.0
-margin_top = 8.0
-margin_right = 955.0
-margin_bottom = 82.0
+visible = true
+margin_left = 577.0
+margin_top = 98.0
+margin_right = 969.0
+margin_bottom = 172.0
 window_title = "Download Status"
 __meta__ = {
 "_edit_use_anchors_": false
