@@ -3,18 +3,24 @@ extends RichTextLabel
 class_name RichContent
 
 export(Color) var code_color = Color(255, 155, 0)
+export(Color) var lang_name_color = Color.greenyellow
 
 var links_regex
-var codeblock_regex
-var codeblocks_regex
+var code_block_regex
+var code_blocks_regex
+var code_snippets_regex
 
 func _ready():
 	links_regex = RegEx.new()
 	links_regex.compile("\\[([A-Z][\\w\\d]+|bool|int|float|(\\w+ ([\\w\\d]+)))\\]")
-	codeblock_regex = RegEx.new()
-	codeblock_regex.compile("")
-	codeblocks_regex = RegEx.new()
-	codeblocks_regex.compile("")
+	code_block_regex = RegEx.new()
+	code_block_regex.compile("(?s)\\[codeblock\\](.*?)\\[/codeblock\\]")
+	code_blocks_regex = RegEx.new()
+	code_blocks_regex.compile("(?s)\\[codeblocks\\](.*?)\\[/codeblocks\\]")
+	code_snippets_regex = RegEx.new()
+	code_snippets_regex.compile("(?s)\\[(gdscript|csharp)\\](.*?)\\[/(?:gdscript|csharp)\\]")
+	if get_parent().name == "root":
+		test_parser()
 
 
 func set_content(txt: String):
@@ -28,10 +34,35 @@ func set_content(txt: String):
 		print("Error parsing bbcode for: " + Data.selected_class)
 
 
+func test_parser():
+	print(parse_codeblocks(text))
+
+
 func parse_codeblocks(txt: String):
 	# Assume single blocks of code are GDScript
+	for result in code_block_regex.search_all(txt):
+		var code_block = result.get_string(0)
+		if code_block.length() > 0:
+			txt = txt.replace(code_block, highlight_code(result.get_string(1)))
+	# Codeblocks
+	# Todo: Syntax highlight.
+	for result in code_blocks_regex.search_all(txt):
+		var code_block = result.get_string(0)
+		if code_block.length() > 0:
+			var new = PoolStringArray([])
+			for block in code_snippets_regex.search_all(code_block):
+				var snippet = block.get_string(0)
+				if snippet.length() > 0:
+					# Add lang name
+					new.append("[color=#" + lang_name_color.to_html(false) + "]" + block.get_string(1) + "[/color]")
+					# Add highlighted code
+					new.append("[code]" + highlight_code(block.get_string(2)) + "[/code]")
+			txt = txt.replace(code_block, new.join("\n"))
 	return txt
-	
+
+
+func highlight_code(code):
+	return "[color=#" + code_color.to_html(false) + "]" + code + "[/color]"
 
 func add_links(txt: String):
 	for result in links_regex.search_all(txt):

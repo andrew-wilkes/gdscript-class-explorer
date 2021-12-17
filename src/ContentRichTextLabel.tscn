@@ -19,9 +19,8 @@ font_data = ExtResource( 1 )
 font_data = ExtResource( 3 )
 
 [node name="Content" type="RichTextLabel"]
-margin_top = 328.0
 margin_right = 1006.0
-margin_bottom = 356.0
+margin_bottom = 28.0
 focus_mode = 2
 size_flags_horizontal = 3
 custom_constants/line_separation = 5
@@ -30,6 +29,29 @@ custom_fonts/italics_font = SubResource( 3 )
 custom_fonts/bold_font = SubResource( 4 )
 custom_fonts/normal_font = SubResource( 5 )
 bbcode_enabled = true
+text = "
+				Emitted when a tab's close button is pressed.
+				[b]Note:[/b] Tabs are not removed automatically once the close button is pressed, this behaviour needs to be programmed manually. For example:
+				[codeblocks]
+				[gdscript]
+				$TabBar.tab_close_pressed.connect($TabBar.remove_tab)
+				[/gdscript]
+				[csharp]
+				GetNode&lt;TabBar&gt;(\"TabBar\").TabClosePressed += GetNode&lt;TabBar&gt;(\"TabBar\").RemoveTab;
+				[/csharp]
+				[/codeblocks]
+				
+				More:
+				
+					[codeblocks]
+				[gdscript]
+				$TabBar.tab_close_pressed.connect($TabBar.remove_tab)
+				[/gdscript]
+				[csharp]
+				GetNode&lt;TabBar&gt;(\"TabBar\").TabClosePressed += GetNode&lt;TabBar&gt;(\"TabBar\").RemoveTab;
+				[/csharp]
+				[/codeblocks]
+			"
 fit_content_height = true
 selection_enabled = true
 script = ExtResource( 5 )
