@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Tests.gd" type="Script" id=1]
+
+[node name="Tests" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TestDetails" type="Button" parent="."]
+margin_left = 34.0
+margin_top = 19.0
+margin_right = 201.0
+margin_bottom = 39.0
+text = "Test Class Details Scene"
+
+[node name="Result" type="Label" parent="."]
+margin_left = 32.0
+margin_top = 89.0
+margin_right = 583.0
+margin_bottom = 103.0
+
+[connection signal="pressed" from="TestDetails" to="." method="_on_TestDetails_pressed"]

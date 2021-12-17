@@ -38,7 +38,6 @@ func fit_content():
 func add_files(files, paths, version, ext):
 	for path in paths:
 		files.append("godot-" + version + path + ext)
-		# The escaped * is needed to stop bash extending the path to include .import files
 
 
 func extract(button: Button):

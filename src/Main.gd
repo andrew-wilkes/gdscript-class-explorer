@@ -91,8 +91,9 @@ func setup_class_view():
 	for key in Data.class_tree.keys():
 		if Data.class_tree[key].size() == 1 and Data.class_tree[key][0].length() == 0:
 			build_tree(the_tree, root, key)
-
+	
 	update_weighted_labels()
+	
 	match Data.settings.list_mode:
 		LIST_MODE.ALPHA:
 			set_visibility(false, false, false)

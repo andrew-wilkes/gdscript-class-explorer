@@ -14,6 +14,8 @@ var selected_class = ""
 var icons = {}
 var data_ok = false
 var version
+var testing = false
+var test_item_index = 0
 
 func _ready():
 	load_settings()

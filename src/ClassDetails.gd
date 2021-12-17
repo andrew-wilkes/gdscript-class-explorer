@@ -54,9 +54,10 @@ func _ready():
 	descbox.hide()
 	notes.get_parent().hide()
 	if Data.selected_class == "":
-		update_content(Data.object_class_name)
+		update_content("Object")
 	else:
 		update_content(Data.selected_class)
+	check_if_testing()
 
 
 func set_chain_text(rtl, txt):
@@ -95,7 +96,7 @@ func update_content(cname, new = true):
 		bdescbox.show()
 		find_node("BDesc").set_content(info.brief_description)
 		desc.set_content(info.description)
-		find_node("Icon").texture = Data.icons[cname]
+		find_node("Icon").texture = Data.icons.get(cname)
 	else:
 		bdescbox.hide()
 	weight.value = current_class.weight
@@ -512,10 +513,20 @@ func _on_Notes_text_changed():
 
 
 func _on_Classes_pressed():
-	var _e = get_tree().change_scene("res://Main.tscn")
+	if Data.testing:
+		var _e = get_tree().change_scene("res://Tests.tscn")
+	else:
+		var _e = get_tree().change_scene("res://Main.tscn")
 
 
 func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.pressed and event.scancode == KEY_ESCAPE:
 			_on_Classes_pressed()
+
+
+func check_if_testing():
+	yield(get_tree(), "idle_frame")
+	#yield(get_tree().create_timer(1.0), "timeout")
+	if Data.testing:
+		var _e = get_tree().change_scene("res://Tests.tscn")
