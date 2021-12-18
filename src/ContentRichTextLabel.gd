@@ -1,7 +1,5 @@
 extends RichTextLabel
 
-# In codeblocks: disable unwanted bbcode such as [b] by replacing `[b]` with `[[/code][code]b]`. But, I want to use [color] for syntax highlighting.
-
 class_name RichContent
 
 export(Color) var code_color = Color(255, 155, 0)
@@ -36,30 +34,32 @@ func set_content(txt: String):
 	txt = add_links(txt)
 	txt = convert_colors(txt)
 	txt = txt.c_unescape()
+	txt = txt.replace("kbd]", "code]")
 	var bbcode =  parse_codeblocks(txt)
 	if parse_bbcode(bbcode) != OK:
 		print("Error parsing bbcode for: " + Data.selected_class)
 
 
 func test_parser():
-	print(parse_codeblocks(text))
+	print(parse_codeblocks(bbcode_text))
 
 
 func parse_codeblocks(txt: String):
-		# Just colorize inline code
+	# Just colorize inline code
 	for result in code_regex.search_all(txt):
 		var code_block = result.get_string(0)
 		if code_block.length() > 0:
-			txt = txt.replace(code_block, highlight_code(code_block))
+			var inner = result.get_string(1)
+			var new = code_block.replace(inner, filter_bbcode(inner))
+			txt = txt.replace(code_block, highlight_code(new))
 
 	# Assume single blocks of code are GDScript
 	for result in code_block_regex.search_all(txt):
 		var code_block = result.get_string(0)
 		if code_block.length() > 0:
-			txt = txt.replace(code_block, highlight_code(result.get_string(1)))
+			txt = txt.replace(code_block, highlight_code("[code]" + filter_bbcode(result.get_string(1)) + "[/code]"))
 
 	# Codeblocks
-	# Todo: Syntax highlight.
 	for result in code_blocks_regex.search_all(txt):
 		var code_block = result.get_string(0)
 		if code_block.length() > 0:
@@ -68,15 +68,15 @@ func parse_codeblocks(txt: String):
 				var snippet = block.get_string(0)
 				if snippet.length() > 0:
 					# Add lang name
-					new.append("[color=#" + lang_name_color.to_html(false) + "]" + block.get_string(1) + "[/color]")
+					new.append("[color=#" + lang_name_color.to_html(false) + "]" + get_lang_name(block.get_string(1)) + "[/color]")
 					# Add highlighted code
-					new.append("[code]" + highlight_code(block.get_string(2)) + "[/code]")
+					new.append(highlight_code("[code]" + filter_bbcode(block.get_string(2)) + "[/code]"))
 			txt = txt.replace(code_block, new.join("\n"))
 	return txt
 
 
 func highlight_code(code):
-	return "[color=#" + code_color.to_html(false) + "]" + filter_bbcode(code) + "[/color]"
+	return "[color=#" + code_color.to_html(false) + "]" + code + "[/color]"
 
 
 # Prevent bb_code from working in codeblock
@@ -84,8 +84,16 @@ func filter_bbcode(code):
 	for result in bb_regex.search_all(code):
 		var bb_code = result.get_string(0)
 		if bb_code.length() > 0:
-			code = code.replace("bb_code", "[/code][code]" + bb_code.substr(1))
+			code = code.replace(bb_code, "[[/code][code]" + bb_code.substr(1))
 	return code
+
+
+func get_lang_name(txt):
+	if txt == "csharp":
+		return "C#"
+	if txt == "gdscript":
+		return "GDScript"
+	return txt
 
 
 func add_links(txt: String):
