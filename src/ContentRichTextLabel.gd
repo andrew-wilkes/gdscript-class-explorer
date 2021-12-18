@@ -1,24 +1,33 @@
 extends RichTextLabel
 
+# In codeblocks: disable unwanted bbcode such as [b] by replacing `[b]` with `[[/code][code]b]`. But, I want to use [color] for syntax highlighting.
+
 class_name RichContent
 
 export(Color) var code_color = Color(255, 155, 0)
 export(Color) var lang_name_color = Color.greenyellow
 
 var links_regex
+var code_regex
 var code_block_regex
 var code_blocks_regex
 var code_snippets_regex
+var bb_regex
 
 func _ready():
 	links_regex = RegEx.new()
 	links_regex.compile("\\[([A-Z][\\w\\d]+|bool|int|float|(\\w+ ([\\w\\d]+)))\\]")
+	code_regex = RegEx.new()
+	code_regex.compile("\\[code\\](.+?)\\[/code\\]")
 	code_block_regex = RegEx.new()
 	code_block_regex.compile("(?s)\\[codeblock\\](.*?)\\[/codeblock\\]")
 	code_blocks_regex = RegEx.new()
 	code_blocks_regex.compile("(?s)\\[codeblocks\\](.*?)\\[/codeblocks\\]")
 	code_snippets_regex = RegEx.new()
 	code_snippets_regex.compile("(?s)\\[(gdscript|csharp)\\](.*?)\\[/(?:gdscript|csharp)\\]")
+	bb_regex = RegEx.new()
+	bb_regex.compile("\\[.+?\\]")
+	
 	if get_parent().name == "root":
 		test_parser()
 
@@ -27,8 +36,6 @@ func set_content(txt: String):
 	txt = add_links(txt)
 	txt = convert_colors(txt)
 	txt = txt.c_unescape()
-	txt = txt.replace("[code]", "[code][color=#" + code_color.to_html(false) + "]") \
-	.replace("[/code]", "[/color][/code]")
 	var bbcode =  parse_codeblocks(txt)
 	if parse_bbcode(bbcode) != OK:
 		print("Error parsing bbcode for: " + Data.selected_class)
@@ -39,11 +46,18 @@ func test_parser():
 
 
 func parse_codeblocks(txt: String):
+		# Just colorize inline code
+	for result in code_regex.search_all(txt):
+		var code_block = result.get_string(0)
+		if code_block.length() > 0:
+			txt = txt.replace(code_block, highlight_code(code_block))
+
 	# Assume single blocks of code are GDScript
 	for result in code_block_regex.search_all(txt):
 		var code_block = result.get_string(0)
 		if code_block.length() > 0:
 			txt = txt.replace(code_block, highlight_code(result.get_string(1)))
+
 	# Codeblocks
 	# Todo: Syntax highlight.
 	for result in code_blocks_regex.search_all(txt):
@@ -62,7 +76,17 @@ func parse_codeblocks(txt: String):
 
 
 func highlight_code(code):
-	return "[color=#" + code_color.to_html(false) + "]" + code + "[/color]"
+	return "[color=#" + code_color.to_html(false) + "]" + filter_bbcode(code) + "[/color]"
+
+
+# Prevent bb_code from working in codeblock
+func filter_bbcode(code):
+	for result in bb_regex.search_all(code):
+		var bb_code = result.get_string(0)
+		if bb_code.length() > 0:
+			code = code.replace("bb_code", "[/code][code]" + bb_code.substr(1))
+	return code
+
 
 func add_links(txt: String):
 	for result in links_regex.search_all(txt):

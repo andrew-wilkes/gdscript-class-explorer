@@ -29,29 +29,8 @@ custom_fonts/italics_font = SubResource( 3 )
 custom_fonts/bold_font = SubResource( 4 )
 custom_fonts/normal_font = SubResource( 5 )
 bbcode_enabled = true
-text = "
-				Emitted when a tab's close button is pressed.
-				[b]Note:[/b] Tabs are not removed automatically once the close button is pressed, this behaviour needs to be programmed manually. For example:
-				[codeblocks]
-				[gdscript]
-				$TabBar.tab_close_pressed.connect($TabBar.remove_tab)
-				[/gdscript]
-				[csharp]
-				GetNode&lt;TabBar&gt;(\"TabBar\").TabClosePressed += GetNode&lt;TabBar&gt;(\"TabBar\").RemoveTab;
-				[/csharp]
-				[/codeblocks]
-				
-				More:
-				
-					[codeblocks]
-				[gdscript]
-				$TabBar.tab_close_pressed.connect($TabBar.remove_tab)
-				[/gdscript]
-				[csharp]
-				GetNode&lt;TabBar&gt;(\"TabBar\").TabClosePressed += GetNode&lt;TabBar&gt;(\"TabBar\").RemoveTab;
-				[/csharp]
-				[/codeblocks]
-			"
+bbcode_text = "Hello [code][ b ][/code]"
+text = "Hello [ b ]"
 fit_content_height = true
 selection_enabled = true
 script = ExtResource( 5 )

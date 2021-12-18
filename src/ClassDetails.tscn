@@ -131,9 +131,7 @@ text = "Inherits:"
 
 [node name="Inherits" parent="SC/H/VBox/Ih" instance=ExtResource( 5 )]
 margin_left = 64.0
-margin_top = 0.0
 margin_right = 499.0
-margin_bottom = 28.0
 
 [node name="Sp" type="Control" parent="SC/H/VBox/Ih"]
 margin_left = 509.0
@@ -166,9 +164,7 @@ text = "Inherited by:"
 
 [node name="Inherited" parent="SC/H/VBox/Ihby" instance=ExtResource( 5 )]
 margin_left = 92.0
-margin_top = 0.0
 margin_right = 974.0
-margin_bottom = 28.0
 
 [node name="Sp4" type="Control" parent="SC/H/VBox"]
 margin_top = 120.0
@@ -190,9 +186,7 @@ text = "+"
 
 [node name="BDesc" parent="SC/H/VBox/BDescBox" instance=ExtResource( 5 )]
 margin_left = 28.0
-margin_top = 0.0
 margin_right = 956.0
-margin_bottom = 28.0
 
 [node name="Sp" type="Control" parent="SC/H/VBox/BDescBox"]
 margin_left = 964.0
@@ -217,9 +211,7 @@ margin_right = 974.0
 margin_bottom = 28.0
 
 [node name="Desc" parent="SC/H/VBox/DescBox/HBox" instance=ExtResource( 5 )]
-margin_top = 0.0
 margin_right = 950.0
-margin_bottom = 28.0
 
 [node name="Sp" type="Control" parent="SC/H/VBox/DescBox/HBox"]
 margin_left = 954.0

@@ -16,6 +16,7 @@ func do_class_details_test():
 	Data.test_item_index += 1
 	if Data.test_item_index < Data.classes.size():
 		var cname = Data.classes.keys()[Data.test_item_index]
+		#print(cname)
 		Data.selected_class = cname
 		var _e = get_tree().change_scene("res://ClassDetails.tscn")
 	else:
