@@ -84,7 +84,6 @@ func update_content(cname, new = true):
 			cname = history[0]
 			if history.size() > 1:
 				cname = history.pop_back()
-	#print(history)
 	current_class = Data.get_user_class(cname)
 
 	set_chain_text(ih, Data.get_inheritance_chain(cname))
@@ -513,20 +512,24 @@ func _on_Notes_text_changed():
 
 
 func _on_Classes_pressed():
+	change_scene()
+
+
+func _unhandled_input(event):
+	if event is InputEventKey:
+		if event.pressed and event.scancode == KEY_ESCAPE:
+			change_scene()
+
+
+func change_scene():
 	if Data.testing:
 		var _e = get_tree().change_scene("res://Tests.tscn")
 	else:
 		var _e = get_tree().change_scene("res://Main.tscn")
 
 
-func _unhandled_input(event):
-	if event is InputEventKey:
-		if event.pressed and event.scancode == KEY_ESCAPE:
-			_on_Classes_pressed()
-
-
 func check_if_testing():
-	yield(get_tree(), "idle_frame")
-	#yield(get_tree().create_timer(1.0), "timeout")
 	if Data.testing:
+		yield(get_tree(), "idle_frame")
+		#yield(get_tree().create_timer(1.0), "timeout")
 		var _e = get_tree().change_scene("res://Tests.tscn")

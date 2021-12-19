@@ -7,7 +7,7 @@ Desktop PC App for personalized exploration of Godot GDScript Classes.
 * Select which version that you want to examine
 * Explore the class docs in Grid or Tree mode
 * View class details in a tabbed scene
-* Add your personal notes to any class details page
+* Add your personal notes to any Class Details page
 * Favorite them with a weighting factor
 * Your favorites are highlighted in green
 * Randomly spin the grid items to discover new things

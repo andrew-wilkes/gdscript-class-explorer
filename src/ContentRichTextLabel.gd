@@ -11,6 +11,7 @@ var code_block_regex
 var code_blocks_regex
 var code_snippets_regex
 var bb_regex
+var color_regex
 
 func _ready():
 	links_regex = RegEx.new()
@@ -25,6 +26,8 @@ func _ready():
 	code_snippets_regex.compile("(?s)\\[(gdscript|csharp)\\](.*?)\\[/(?:gdscript|csharp)\\]")
 	bb_regex = RegEx.new()
 	bb_regex.compile("\\[.+?\\]")
+	color_regex = RegEx.new()
+	color_regex.compile("Color\\(([0-9\\., ]+?)\\)")
 	
 	if get_parent().name == "root":
 		test_parser()
@@ -33,8 +36,8 @@ func _ready():
 func set_content(txt: String):
 	txt = add_links(txt)
 	txt = convert_colors(txt)
-	txt = txt.c_unescape()
-	txt = txt.replace("kbd]", "code]")
+	txt = txt.c_unescape() # Should have commented on why this was needed
+	txt = txt.replace("kbd]", "code]") # A kbd tag shows up one time in the whole of the docs xml of Godot 4
 	var bbcode =  parse_codeblocks(txt)
 	if parse_bbcode(bbcode) != OK:
 		print("Error parsing bbcode for: " + Data.selected_class)
@@ -75,11 +78,12 @@ func parse_codeblocks(txt: String):
 	return txt
 
 
+# This wraps the code tags, but later, this could be an inner-content syntax highlighter. But the Doc code snippets are very short so far.
 func highlight_code(code):
 	return "[color=#" + code_color.to_html(false) + "]" + code + "[/color]"
 
 
-# Prevent bb_code from working in codeblock
+# Prevent bb_code from working in codeblock and breaking the tag stack
 func filter_bbcode(code):
 	for result in bb_regex.search_all(code):
 		var bb_code = result.get_string(0)
@@ -90,7 +94,7 @@ func filter_bbcode(code):
 
 func get_lang_name(txt):
 	if txt == "csharp":
-		return "C#"
+		return "C#" # That seems like the correct name for it
 	if txt == "gdscript":
 		return "GDScript"
 	return txt
@@ -112,9 +116,7 @@ func add_links(txt: String):
 
 func convert_colors(txt: String):
 	# Color( 0.6, 0.8, 0.2, 1 ) > [color=#ffffff]Color( 0.6, 0.8, 0.2, 1 )[/color]
-	var regex = RegEx.new()
-	regex.compile("Color\\(([0-9\\., ]+?)\\)")
-	for result in regex.search_all(txt):
+	for result in color_regex.search_all(txt):
 		var col_code = result.get_string(0)
 		var rgb_code = result.get_string(1)
 		if rgb_code.length() > 0:
