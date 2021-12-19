@@ -168,9 +168,12 @@ func map_other_icons():
 			map_icons(cname)
 
 
+# Credit to: Mounir Tohami "fixed the maximize issue when the grid is empty"
 func arrange_controls():
 	var w_size = OS.window_size.x
-	var b_size = grid.get_child(0).rect_size.x
+	var b_size = 1.0
+	if grid.get_child_count() > 0:
+		b_size = grid.get_child(0).rect_size.x
 	var n_cols = int(floor(w_size / b_size))
 	if n_cols != grid.columns:
 		grid.columns = n_cols
