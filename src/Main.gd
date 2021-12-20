@@ -323,10 +323,11 @@ func configure_button(button: Button, item: ClassItem, text_color: Color = class
 
 
 func _on_SS_text_changed(new_text: String):
-	if Data.settings.list_mode == LIST_MODE.TREE:
-		search_tree(new_text.to_lower())
-	else:
-		search_grid(new_text.to_lower())
+	if Data.data_ok:
+		if Data.settings.list_mode == LIST_MODE.TREE:
+			search_tree(new_text.to_lower())
+		else:
+			search_grid(new_text.to_lower())
 
 
 func search_tree(new_text: String):

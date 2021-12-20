@@ -104,7 +104,7 @@ margin_right = 1006.0
 margin_bottom = 24.0
 text = "Help"
 
-[node name="SS" type="LineEdit" parent="VBox" groups=["class_buttons"]]
+[node name="SS" type="LineEdit" parent="VBox"]
 margin_top = 28.0
 margin_right = 1006.0
 margin_bottom = 52.0
