@@ -132,11 +132,101 @@ hide_root = true
 
 [node name="c" type="CanvasLayer" parent="."]
 
-[node name="About" type="AcceptDialog" parent="c"]
-margin_right = 83.0
-margin_bottom = 58.0
-window_title = "About"
-dialog_text = "Created by Andrew Wilkes in 2021"
+[node name="About" type="PopupDialog" parent="c"]
+visible = true
+margin_right = 600.0
+margin_bottom = 369.0
+rect_min_size = Vector2( 600, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="M" type="MarginContainer" parent="c/About"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 9
+custom_constants/margin_top = 9
+custom_constants/margin_left = 9
+custom_constants/margin_bottom = 9
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBox" type="VBoxContainer" parent="c/About/M"]
+margin_left = 9.0
+margin_top = 9.0
+margin_right = 591.0
+margin_bottom = 360.0
+custom_constants/separation = 10
+
+[node name="ScrollContainer" type="ScrollContainer" parent="c/About/M/VBox"]
+margin_right = 582.0
+margin_bottom = 321.0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="c/About/M/VBox/ScrollContainer"]
+margin_right = 570.0
+margin_bottom = 558.0
+size_flags_horizontal = 3
+text = "This software was created by Andrew Wilkes in 2021
+
+INSTRUCTIONS
+
+The Class data is extracted from Godot source code files in .zip format.
+
+Files may be downloaded with this software or added manually to the
+ same folder as this software.
+
+The File menu has buttons to Download a file, extract the data to a
+data file, and to select which version of the data to use.
+
+The first menu button sorts the buttons in Alphabetical Order.
+Pressing this button again, reverses the sort order.
+
+The next menu button groups the Classes to various types of Nodes.
+Press this button again to loop around the classes.
+
+Pressing buttons in the grid opens the Details page of the Class.
+Here you may also add your own notes regarding this class which
+will be saved when you Exit the App.
+
+The Interest level may be set via a slider and this level is incremented
+each time the details of the Class is viewed. Then the Class is shown 
+near the top of the grid and highlighted in Green. Right-clicking on 
+its button will reset the Interest level.
+
+The V button in the menu is for resetting all of the Interest levels at once.
+
+The spinner button simply randomizes the order of the items in the grid.
+
+Items listed in the tree view may be double-clicked to show their Details.
+"
+autowrap = true
+
+[node name="HBox" type="HBoxContainer" parent="c/About/M/VBox"]
+margin_top = 331.0
+margin_right = 582.0
+margin_bottom = 351.0
+
+[node name="sp" type="Control" parent="c/About/M/VBox/HBox"]
+margin_right = 271.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="ok" type="Button" parent="c/About/M/VBox/HBox"]
+margin_left = 275.0
+margin_right = 306.0
+margin_bottom = 20.0
+text = "OK"
+
+[node name="sp2" type="Control" parent="c/About/M/VBox/HBox"]
+margin_left = 310.0
+margin_right = 582.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
 
 [node name="Licences" type="PopupDialog" parent="c"]
 margin_right = 600.0
@@ -243,7 +333,6 @@ margin_bottom = 20.0
 size_flags_horizontal = 3
 
 [node name="FileDownload" type="WindowDialog" parent="c"]
-visible = true
 margin_left = 28.0
 margin_top = 108.0
 margin_right = 705.0
@@ -344,7 +433,6 @@ __meta__ = {
 }
 
 [node name="ZipExtract" type="WindowDialog" parent="c"]
-visible = true
 margin_left = 54.0
 margin_top = 375.0
 margin_right = 328.0
@@ -378,7 +466,6 @@ text = "master.zip"
 align = 0
 
 [node name="Extracting" type="PopupDialog" parent="c/ZipExtract"]
-visible = true
 margin_left = 2.0
 margin_top = 83.0
 margin_right = 283.0
@@ -479,6 +566,7 @@ dialog_text = "Unable to extract data from the selected file: FILE"
 [connection signal="pressed" from="VBox/Menu/Reset" to="." method="_on_Reset_pressed"]
 [connection signal="text_changed" from="VBox/SS" to="." method="_on_SS_text_changed"]
 [connection signal="item_activated" from="VBox/Tree" to="." method="_on_Tree_item_activated"]
+[connection signal="pressed" from="c/About/M/VBox/HBox/ok" to="." method="_on_about_ok_pressed"]
 [connection signal="pressed" from="c/Licences/M/VBox/HBox/ok" to="." method="_on_ok_pressed"]
 [connection signal="pressed" from="c/FileDownload/VBox/Master" to="c/FileDownload" method="_on_Master_pressed"]
 [connection signal="text_changed" from="c/FileDownload/VBox/HBox/LineEdit" to="c/FileDownload" method="_on_LineEdit_text_changed"]

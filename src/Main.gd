@@ -490,3 +490,7 @@ func bad_data():
 
 func _on_ZipExtract_new_data_file(file_name):
 	_on_SelectDataFile_selected_data_file(file_name)
+
+
+func _on_about_ok_pressed():
+	$c/About.hide()
