@@ -33,20 +33,20 @@ margin_bottom = 591.0
 margin_right = 1006.0
 margin_bottom = 24.0
 
-[node name="Items" type="ToolButton" parent="VBox/Menu"]
+[node name="Items" type="ToolButton" parent="VBox/Menu" groups=["class_buttons"]]
 margin_right = 28.0
 margin_bottom = 24.0
 hint_tooltip = "A-Z"
 icon = ExtResource( 4 )
 
-[node name="Groups" type="ToolButton" parent="VBox/Menu"]
+[node name="Groups" type="ToolButton" parent="VBox/Menu" groups=["class_buttons"]]
 margin_left = 32.0
 margin_right = 60.0
 margin_bottom = 24.0
 hint_tooltip = "Group"
 icon = ExtResource( 2 )
 
-[node name="TreeButton" type="ToolButton" parent="VBox/Menu"]
+[node name="TreeButton" type="ToolButton" parent="VBox/Menu" groups=["class_buttons"]]
 margin_left = 64.0
 margin_right = 92.0
 margin_bottom = 24.0
@@ -104,7 +104,7 @@ margin_right = 1006.0
 margin_bottom = 24.0
 text = "Help"
 
-[node name="SS" type="LineEdit" parent="VBox"]
+[node name="SS" type="LineEdit" parent="VBox" groups=["class_buttons"]]
 margin_top = 28.0
 margin_right = 1006.0
 margin_bottom = 52.0

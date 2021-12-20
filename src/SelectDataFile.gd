@@ -4,7 +4,7 @@ signal selected_data_file(file)
 
 func show_files():
 	var n = 0
-	var files = Data.get_file_list("")
+	var files = Data.get_file_list("./")
 	for b in $VBox.get_children():
 		if n > 0:
 			b.hide()

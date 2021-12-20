@@ -57,7 +57,13 @@ func _ready():
 		else:
 			bad_data()
 	else:
+		disable_class_button_menu_items()
 		$c/Welcome.popup_centered()
+
+
+func disable_class_button_menu_items(disabled = true):
+	for item in get_tree().get_nodes_in_group("class_buttons"):
+		item.disabled = disabled
 
 
 func show_version(txt):
@@ -463,6 +469,7 @@ func _on_SelectDataFile_selected_data_file(file):
 		clear_scene()
 		yield(get_tree(), "idle_frame")
 		setup_class_view()
+		disable_class_button_menu_items(false)
 	else:
 		bad_data()
 
@@ -474,6 +481,7 @@ func clear_scene():
 
 
 func bad_data():
+	disable_class_button_menu_items()
 	var bd: AcceptDialog = $c/BadData
 	bd.dialog_text = bd.dialog_text.replace("FILE", Data.settings.data_file)
 	bd.popup_centered()
