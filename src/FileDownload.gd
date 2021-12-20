@@ -36,12 +36,10 @@ func url_selected(url: String):
 	$Downloading.popup_centered()
 	# Allow the alert to be seen before the blocking process runs
 	yield(get_tree().create_timer(0.5), "timeout")
-	var result = OS.execute("curl", [url, "-L", "-o", target_filename])
+	# Ignore result code
+	var _result = OS.execute("curl", [url, "-L", "-o", target_filename])
 	$Downloading.hide()
 	$VBox/HBox/OK.disabled = false
-	if result != OK:
-		alert("There was an error running curl on your computer.")
-		return
 	if file.file_exists(target_filename):
 		alert("Done")
 		download_status = OK

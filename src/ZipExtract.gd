@@ -48,7 +48,12 @@ func extract(button: Button):
 	# Godot creates .import files that are not in the archive
 	# This causes `Filename not matched` errors if they are matched with a * wild card
 	add_files(files, Data.ICON_FOLDERS, version, "*.svg")
+	$Extracting.rect_size = rect_size
+	$Extracting.popup_centered()
+	# Allow the alert to be seen before the blocking process runs
+	yield(get_tree().create_timer(0.5), "timeout")
 	unzip(files)
+	$Extracting.hide()
 	create_class_data_file(Data.CLASS_FOLDERS, version)
 
 
@@ -65,13 +70,9 @@ func unzip(files):
 	args.append_array(files)
 	var output = []
 	unzipped = OS.execute(cmd, args, true, output)
-	Utility.clear_log()
-	Utility.add_array_to_log(args)
 	if not unzipped in [0, 1, 11]: # Acceptable return codes
 		alert("There was an error " + str(unzipped) + " running " + cmd + " on your computer.\n" + output[0])
 		return
-	Utility.add_to_log(output[0])
-	Utility.save_log()
 
 
 func create_class_data_file(source_folders: Array, version: String):

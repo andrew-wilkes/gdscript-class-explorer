@@ -309,7 +309,6 @@ margin_bottom = 166.0
 text = "You may download more than one version of the source code and select which version to use later."
 
 [node name="Downloading" type="PopupDialog" parent="c/FileDownload"]
-visible = true
 margin_left = 581.0
 margin_top = -32.0
 margin_right = 965.0
@@ -335,7 +334,6 @@ __meta__ = {
 }
 
 [node name="Alert" type="AcceptDialog" parent="c/FileDownload"]
-visible = true
 margin_left = 577.0
 margin_top = 98.0
 margin_right = 969.0
@@ -346,10 +344,11 @@ __meta__ = {
 }
 
 [node name="ZipExtract" type="WindowDialog" parent="c"]
-margin_left = 28.0
-margin_top = 108.0
-margin_right = 302.0
-margin_bottom = 174.0
+visible = true
+margin_left = 54.0
+margin_top = 375.0
+margin_right = 328.0
+margin_bottom = 441.0
 window_title = "Extract Files From ZIP Archive"
 script = ExtResource( 8 )
 __meta__ = {
@@ -378,13 +377,42 @@ margin_bottom = 44.0
 text = "master.zip"
 align = 0
 
+[node name="Extracting" type="PopupDialog" parent="c/ZipExtract"]
+visible = true
+margin_left = 2.0
+margin_top = 83.0
+margin_right = 283.0
+margin_bottom = 159.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="c/ZipExtract/Extracting"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 8.0
+margin_bottom = -2.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="c/ZipExtract/Extracting/CenterContainer"]
+margin_left = 90.0
+margin_top = 30.0
+margin_right = 199.0
+margin_bottom = 44.0
+text = "Extracting files ..."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Alert" type="AcceptDialog" parent="c/ZipExtract"]
-margin_left = 563.0
-margin_top = 8.0
-margin_right = 955.0
-margin_bottom = 82.0
+margin_left = 551.0
+margin_top = -169.0
+margin_right = 943.0
+margin_bottom = -95.0
 window_title = "Download Status"
-resizable = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
