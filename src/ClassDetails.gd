@@ -2,6 +2,8 @@ extends Control
 
 enum { RAW, FORMATTED }
 
+const DOCS_URL = "https://docs.godotengine.org/en/latest"
+
 var desc: RichTextLabel
 var descbox
 var notes
@@ -221,7 +223,7 @@ func add_items_to_tab(prop: String, tab: RichContent, items):
 					line_number += code.split("\n").size()
 		"tutorials":
 			for link in items:
-				content.append("\t" + get_link_string(link))
+				content.append("\t" + get_link_string(link).replace("$DOCS_URL", DOCS_URL))
 	tab.set_content(content.join("\n"))
 
 
