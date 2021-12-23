@@ -133,17 +133,21 @@ func get_icon_files():
 			if file_name.get_extension() == "import":
 				# store name.svg
 				imports.append(get_icon_key(file_name))
+		var file = File.new()
 		for file_name in files:
 			if file_name.get_extension() == "svg":
 				var texture
 				var icon_key = get_icon_key(file_name)
+				var icon_path = path + file_name
+				if not file.file_exists(icon_path):
+					continue
 				if icon_key in imports:
 					# Use load for imported images
-					texture = load(path + file_name)
+					texture = load(icon_path)
 				else:
 					# External image
 					texture = ImageTexture.new()
-					image.load(path + file_name)
+					image.load(icon_path)
 					texture.create_from_image(image)
 				icon_files[icon_key] = texture
 
@@ -169,7 +173,7 @@ func map_icons(cname):
 func map_other_icons():
 	for cname in Data.classes.keys():
 		if cname.begins_with("@"):
-			Data.icons[cname] = icon_files["arrowright"]
+			Data.icons[cname] = icon_files.get("arrowright")
 		elif Data.class_tree[cname][0].length() == 0:
 			map_icons(cname)
 
@@ -458,7 +462,6 @@ func _on_FileMenu_id_pressed(id):
 			$c/FileDownload.popup_centered()
 		EXTRACT:
 			$c/ZipExtract.popup_centered()
-			# unzip -u 3.4.zip "godot-3.4/doc/classes/*" -d 3.4
 		SELECT:
 			$c/SelectDataFile.popup_centered()
 
