@@ -37,7 +37,8 @@ func url_selected(url: String):
 	# Allow the alert to be seen before the blocking process runs
 	yield(get_tree().create_timer(0.5), "timeout")
 	# Ignore result code
-	var _result = OS.execute("curl", [url, "-L", "-o", target_filename])
+	# Credit to: Mounir Tohami: Add --ssl-no-revoke parameter to fix download issue on some Windows PCs
+	var _result = OS.execute("curl", [url, "--ssl-no-revoke", "-L", "-o", target_filename])
 	$Downloading.hide()
 	$VBox/HBox/OK.disabled = false
 	if file.file_exists(target_filename):

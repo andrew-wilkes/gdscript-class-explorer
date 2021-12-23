@@ -13,3 +13,4 @@ data_*/
 *.dat
 src/godot-*
 src/log*
+build/
