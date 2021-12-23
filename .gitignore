@@ -13,4 +13,13 @@ data_*/
 *.dat
 src/godot-*
 src/log*
+<<<<<<< HEAD
 build/
+=======
+
+# Ignore build items
+build/
+*.exe
+*.pck
+*.x86_64
+>>>>>>> 6080bd040c43f22eec801da3a8f35695e6e3386b
