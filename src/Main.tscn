@@ -133,7 +133,6 @@ hide_root = true
 [node name="c" type="CanvasLayer" parent="."]
 
 [node name="About" type="PopupDialog" parent="c"]
-visible = true
 margin_right = 600.0
 margin_bottom = 369.0
 rect_min_size = Vector2( 600, 0 )
@@ -168,7 +167,7 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="c/About/M/VBox/ScrollContainer"]
-margin_right = 570.0
+margin_right = 582.0
 margin_bottom = 558.0
 size_flags_horizontal = 3
 text = "This software was created by Andrew Wilkes in 2021

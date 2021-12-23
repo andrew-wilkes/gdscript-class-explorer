@@ -127,20 +127,19 @@ func get_icon_files():
 	var image = Image.new()
 	for path in Data.get_icon_paths():
 		var files = Data.get_file_list(path)
+		if files.size() == 0:
+			continue
 		var imports = []
 		for file_name in files:
 			# Detect imported images
 			if file_name.get_extension() == "import":
 				# store name.svg
 				imports.append(get_icon_key(file_name))
-		var file = File.new()
 		for file_name in files:
 			if file_name.get_extension() == "svg":
 				var texture
 				var icon_key = get_icon_key(file_name)
 				var icon_path = path + file_name
-				if not file.file_exists(icon_path):
-					continue
 				if icon_key in imports:
 					# Use load for imported images
 					texture = load(icon_path)

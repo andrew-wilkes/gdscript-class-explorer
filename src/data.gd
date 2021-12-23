@@ -172,9 +172,7 @@ func get_file_list(path):
 			if not dir.current_is_dir():
 				files.append(file_name)
 			file_name = dir.get_next()
-		return files
-	else:
-		print("An error occurred when trying to access the path.")
+	return files
 
 
 func _notification(what):

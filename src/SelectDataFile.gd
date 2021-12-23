@@ -32,8 +32,8 @@ func show_files():
 
 
 func close(button):
-	emit_signal("selected_data_file", button.text)
 	hide()
+	emit_signal("selected_data_file", button.text)
 
 
 func fit_content():
